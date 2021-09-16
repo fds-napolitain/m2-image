@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FB60C6E526EF8CD900EDF8EF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB60C6E426EF8CD900EDF8EF /* main.cpp */; };
+		FB60C70426EF90A500EDF8EF /* ImageBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB60C70126EF90A500EDF8EF /* ImageBase.cpp */; };
+		FB60C70526EF90A500EDF8EF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB60C70326EF90A500EDF8EF /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		FB60C6DF26EF8CD900EDF8EF /* CopyFiles */ = {
+		FB60C6F226EF8FEA00EDF8EF /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -23,12 +24,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FB60C6E126EF8CD900EDF8EF /* m2-image */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "m2-image"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FB60C6E426EF8CD900EDF8EF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		FB60C6F426EF8FEA00EDF8EF /* tp1-palette */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "tp1-palette"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB60C6FC26EF907B00EDF8EF /* ImageBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ImageBase.h; path = "tp1-palette/ImageBase.h"; sourceTree = "<group>"; };
+		FB60C6FD26EF907B00EDF8EF /* ImageBase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ImageBase.cpp; path = "tp1-palette/ImageBase.cpp"; sourceTree = "<group>"; };
+		FB60C6FE26EF907B00EDF8EF /* image_ppm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = image_ppm.h; path = "tp1-palette/image_ppm.h"; sourceTree = "<group>"; };
+		FB60C6FF26EF907B00EDF8EF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = "tp1-palette/main.cpp"; sourceTree = "<group>"; };
+		FB60C70026EF90A500EDF8EF /* image_ppm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_ppm.h; sourceTree = "<group>"; };
+		FB60C70126EF90A500EDF8EF /* ImageBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageBase.cpp; sourceTree = "<group>"; };
+		FB60C70226EF90A500EDF8EF /* ImageBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageBase.h; sourceTree = "<group>"; };
+		FB60C70326EF90A500EDF8EF /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		FB60C6DE26EF8CD900EDF8EF /* Frameworks */ = {
+		FB60C6F126EF8FEA00EDF8EF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -41,45 +49,60 @@
 		FB60C6D826EF8CD900EDF8EF = {
 			isa = PBXGroup;
 			children = (
-				FB60C6E326EF8CD900EDF8EF /* m2-image */,
+				FB60C6F526EF8FEA00EDF8EF /* tp1-palette */,
 				FB60C6E226EF8CD900EDF8EF /* Products */,
+				FB60C6FB26EF907B00EDF8EF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		FB60C6E226EF8CD900EDF8EF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FB60C6E126EF8CD900EDF8EF /* m2-image */,
+				FB60C6F426EF8FEA00EDF8EF /* tp1-palette */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FB60C6E326EF8CD900EDF8EF /* m2-image */ = {
+		FB60C6F526EF8FEA00EDF8EF /* tp1-palette */ = {
 			isa = PBXGroup;
 			children = (
-				FB60C6E426EF8CD900EDF8EF /* main.cpp */,
+				FB60C70026EF90A500EDF8EF /* image_ppm.h */,
+				FB60C70126EF90A500EDF8EF /* ImageBase.cpp */,
+				FB60C70226EF90A500EDF8EF /* ImageBase.h */,
+				FB60C70326EF90A500EDF8EF /* main.cpp */,
 			);
-			path = "m2-image";
+			path = "tp1-palette";
+			sourceTree = "<group>";
+		};
+		FB60C6FB26EF907B00EDF8EF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FB60C6FE26EF907B00EDF8EF /* image_ppm.h */,
+				FB60C6FD26EF907B00EDF8EF /* ImageBase.cpp */,
+				FB60C6FC26EF907B00EDF8EF /* ImageBase.h */,
+				FB60C6FF26EF907B00EDF8EF /* main.cpp */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FB60C6E026EF8CD900EDF8EF /* m2-image */ = {
+		FB60C6F326EF8FEA00EDF8EF /* tp1-palette */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FB60C6E826EF8CD900EDF8EF /* Build configuration list for PBXNativeTarget "m2-image" */;
+			buildConfigurationList = FB60C6F826EF8FEA00EDF8EF /* Build configuration list for PBXNativeTarget "tp1-palette" */;
 			buildPhases = (
-				FB60C6DD26EF8CD900EDF8EF /* Sources */,
-				FB60C6DE26EF8CD900EDF8EF /* Frameworks */,
-				FB60C6DF26EF8CD900EDF8EF /* CopyFiles */,
+				FB60C6F026EF8FEA00EDF8EF /* Sources */,
+				FB60C6F126EF8FEA00EDF8EF /* Frameworks */,
+				FB60C6F226EF8FEA00EDF8EF /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "m2-image";
-			productName = "m2-image";
-			productReference = FB60C6E126EF8CD900EDF8EF /* m2-image */;
+			name = "tp1-palette";
+			productName = "tp1-palette";
+			productReference = FB60C6F426EF8FEA00EDF8EF /* tp1-palette */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -90,7 +113,7 @@
 			attributes = {
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
-					FB60C6E026EF8CD900EDF8EF = {
+					FB60C6F326EF8FEA00EDF8EF = {
 						CreatedOnToolsVersion = 12.5.1;
 					};
 				};
@@ -108,17 +131,18 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FB60C6E026EF8CD900EDF8EF /* m2-image */,
+				FB60C6F326EF8FEA00EDF8EF /* tp1-palette */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		FB60C6DD26EF8CD900EDF8EF /* Sources */ = {
+		FB60C6F026EF8FEA00EDF8EF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB60C6E526EF8CD900EDF8EF /* main.cpp in Sources */,
+				FB60C70526EF90A500EDF8EF /* main.cpp in Sources */,
+				FB60C70426EF90A500EDF8EF /* ImageBase.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,7 +260,7 @@
 			};
 			name = Release;
 		};
-		FB60C6E926EF8CD900EDF8EF /* Debug */ = {
+		FB60C6F926EF8FEA00EDF8EF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -246,7 +270,7 @@
 			};
 			name = Debug;
 		};
-		FB60C6EA26EF8CD900EDF8EF /* Release */ = {
+		FB60C6FA26EF8FEA00EDF8EF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -268,11 +292,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FB60C6E826EF8CD900EDF8EF /* Build configuration list for PBXNativeTarget "m2-image" */ = {
+		FB60C6F826EF8FEA00EDF8EF /* Build configuration list for PBXNativeTarget "tp1-palette" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FB60C6E926EF8CD900EDF8EF /* Debug */,
-				FB60C6EA26EF8CD900EDF8EF /* Release */,
+				FB60C6F926EF8FEA00EDF8EF /* Debug */,
+				FB60C6FA26EF8FEA00EDF8EF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
