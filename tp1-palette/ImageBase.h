@@ -3,7 +3,7 @@
 *
 * Fichier : ImageBase.h
 *
-* Description : Classe contennant quelques fonctionnalités de base
+* Description : Classe contennant quelques fonctionnalitï¿½s de base
 *
 * Auteur : Mickael Pinto
 *
@@ -48,9 +48,10 @@ public:
 	
 	///////////// Methodes
 protected:
-	void copy(const ImageBase &copy);
 
 public:
+	void copy(const ImageBase &copy);
+	void shallowCopy(const ImageBase &copy);
 	int getHeight() { return height; };
 	int getWidth() { return width; };
 	int getTotalSize() { return nTaille; };

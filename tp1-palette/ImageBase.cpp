@@ -80,7 +80,7 @@ void ImageBase::load(char *filename)
 
 	if(l <= 4) // Le fichier ne peut pas etre que ".pgm" ou ".ppm"
 	{
-		printf("Chargement de l'image impossible : Le nom de fichier n'est pas conforme, il doit comporter l'extension, et celle ci ne peut être que '.pgm' ou '.ppm'");
+		printf("Chargement de l'image impossible : Le nom de fichier n'est pas conforme, il doit comporter l'extension, et celle ci ne peut ï¿½tre que '.pgm' ou '.ppm'");
 		exit(0);
 	}
 
@@ -108,7 +108,7 @@ void ImageBase::load(char *filename)
 	}
 	else 
 	{
-		printf("Chargement de l'image impossible : Le nom de fichier n'est pas conforme, il doit comporter l'extension, et celle ci ne peut être que .pgm ou .ppm");
+		printf("Chargement de l'image impossible : Le nom de fichier n'est pas conforme, il doit comporter l'extension, et celle ci ne peut ï¿½tre que .pgm ou .ppm");
 		exit(0);
 	}
 	
@@ -185,6 +185,29 @@ void ImageBase::copy(const ImageBase &copy)
 		data[i] = copy.data[i];
 		dataD[i] = copy.dataD[i];
 	}
+
+}
+
+
+void ImageBase::shallowCopy(const ImageBase &copy)
+{
+	reset();
+	
+	isValid = false;
+	init();
+	
+	color = copy.color;
+	height = copy.height;
+	width = copy.width;
+	nTaille = copy.nTaille;
+	isValid = copy.isValid;
+	
+	if(nTaille == 0)
+		return;
+	
+	allocation_tableau(data, OCTET, nTaille);
+	dataD = (double*)malloc(sizeof(double) * nTaille);
+	isValid = true;
 
 }
 

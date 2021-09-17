@@ -2,66 +2,185 @@
 #include <stdio.h>
 #include <iostream>
 #include <math.h>
+#include <vector>
 
-// couleur choisies
-int c1 = 0;
-int c2 = 255;
+typedef struct couleur {
+    int r;
+    int g;
+    int b;
+} couleur;
 
-// couleurs moyennes calculées des classes
-int c3 = 0;
-int n3 = 0;
-int c4 = 0;
-int n4 = 0;
+std::vector<couleur> palette;
 
-int d1(unsigned char pixel) {
-    return sqrt((pixel - c1) + (pixel - c1) + (pixel - c1));
+struct {
+    std::vector<couleur> palette;
+    std::vector<int> n;
+} paletteMoyenne;
+
+ImageBase imIn;
+ImageBase imOut;
+
+void initPaletteRandom(int n) {
+    palette.resize(n);
+    paletteMoyenne.palette.resize(n);
+    paletteMoyenne.n.resize(n);
+    srand(time(NULL));
+    for (int i = 0; i < n; i++) {
+        // palette[i].r = rand() % 256;
+        // palette[i].g = rand() % 256;
+        // palette[i].b = rand() % 256;
+        palette[i].r = imIn[rand() % imIn.getHeight()][rand() % imIn.getWidth()];
+        palette[i].g = imIn[rand() % imIn.getHeight()][rand() % imIn.getWidth()+1];
+        palette[i].b = imIn[rand() % imIn.getHeight()][rand() % imIn.getWidth()+2];
+    }
 }
 
-int d2(unsigned char pixel) {
-    return sqrt((pixel - c2) + (pixel - c2) + (pixel - c2));
+// si palette et palette moyenne sont identiques (= convergent)
+bool samePalette() {
+    for (int i = 0; i < palette.size(); i++) {
+        if (!(palette[i].r == paletteMoyenne.palette[i].r &&
+        palette[i].g == paletteMoyenne.palette[i].g &&
+        palette[i].b == paletteMoyenne.palette[i].b)) return false;
+    }
+    return true;
+}
+
+// kmean
+float dist(int x, int y, int indicePalette) {
+    return sqrt(
+        pow(imIn[y*3][x*3] - palette[indicePalette].r, 2) +
+        pow(imIn[y*3][x*3+1] - palette[indicePalette].g, 2) +
+        pow(imIn[y*3][x*3+2] - palette[indicePalette].b, 2)
+    );
+}
+
+void parcoursKmean() {
+    for(int y = 0; y < imIn.getHeight(); y++) {
+        for (int x = 0; x < imIn.getWidth(); x++) {
+            int indexPalette = 0;
+            float distMin = INFINITY;
+            for (int i = 0; i < palette.size(); i++) {
+                float d = dist(x, y, i);
+                if (d < distMin) {
+                    distMin = d;
+                    indexPalette = i;
+                }
+            }
+            imOut[y*3][x*3] = palette[indexPalette].r;
+            imOut[y*3][x*3+1] = palette[indexPalette].g;
+            imOut[y*3][x*3+2] = palette[indexPalette].b;
+            paletteMoyenne.palette[indexPalette].r += (int)imIn[y*3][x*3];
+            paletteMoyenne.palette[indexPalette].g += (int)imIn[y*3][x*3+1];
+            paletteMoyenne.palette[indexPalette].b += (int)imIn[y*3][x*3+2];
+            paletteMoyenne.n[indexPalette]++;
+        }
+    }
+    for (int i = 0; i < palette.size(); i++) {
+        if (paletteMoyenne.n[i] == 0) continue;
+        paletteMoyenne.palette[i].r /= paletteMoyenne.n[i];
+        paletteMoyenne.palette[i].g /= paletteMoyenne.n[i];
+        paletteMoyenne.palette[i].b /= paletteMoyenne.n[i];
+    }
+}
+
+void parcoursKmeanMoyenne() {
+    int indexPalette = 0;
+    float distMin = INFINITY;
+    for(int y = 0; y < imIn.getHeight(); y++) {
+        for (int x = 0; x < imIn.getWidth(); x++) {
+            for (int i = 0; i < palette.size(); i++) {
+                float d = dist(x, y, indexPalette);
+                if (d < distMin) {
+                    distMin = d;
+                    indexPalette = i;
+                }
+            }
+            imOut[y*3][x*3] = paletteMoyenne.palette[indexPalette].r;
+            imOut[y*3][x*3+1] = paletteMoyenne.palette[indexPalette].g;
+            imOut[y*3][x*3+2] = paletteMoyenne.palette[indexPalette].b;
+        }
+    }
+}
+
+double EQM()
+{
+    double eqm_r = 0;
+    double eqm_g = 0;
+    double eqm_b = 0;
+
+    for(int y = 0; y < imIn.getHeight(); y++) {
+        for (int x = 0; x < imIn.getWidth(); x++) {
+            eqm_r += pow(imIn[y][x] - imOut[y][x], 2);
+            eqm_g += pow(imIn[y][x+1] - imOut[y][x+1], 2);
+            eqm_b += pow(imIn[y][x+2] - imOut[y][x+2], 2);
+        }
+    }
+
+    return (eqm_r + eqm_g + eqm_b) / (imIn.getTotalSize() * 3);
+}
+
+double PSNR()
+{
+    return 10 * log10(pow(255, 2) / EQM());
+}
+
+void parcours8bits(ImageBase* imGrey) {
+    for(int y = 0; y < imIn.getHeight(); y++) {
+        for (int x = 0; x < imIn.getWidth(); x++) {
+            int indexPalette = 0;
+            float distMin = INFINITY;
+            for (int i = 0; i < palette.size(); i++) {
+                float d = dist(x, y, indexPalette);
+                if (d < distMin) {
+                    distMin = d;
+                    indexPalette = i;
+                }
+            }
+            (*imGrey)[y][x] = (unsigned char) indexPalette;
+        }
+    }
 }
 
 int main(int argc, char **argv) {
-    ImageBase imIn;
-    imIn.load("lena.ppm");
+    imIn.load("image.ppm");
+    imOut.shallowCopy(imIn);
 
-    ImageBase imOut(imIn.getWidth(), imIn.getHeight(), imIn.getColor());
-    ImageBase imOut2(imIn.getWidth(), imIn.getHeight(), imIn.getColor());
+    // palette 256 couleurs
+    couleur a = {0,0,0};
+    palette.push_back(a);
+    paletteMoyenne.palette.push_back(a);
+    paletteMoyenne.n.push_back(0);
+    initPaletteRandom(256);
 
-    for(int x = 0; x < imIn.getTotalSize(); x += 3) {
-        // classification avec kmean / distance
-        if (d1(*imIn[x]) < d2(*imIn[x])) {
-            *imOut[x] = c1;
-            *imOut[x+1] = c1;
-            *imOut[x+2] = c1;
-            c3 += *imIn[x] + *imIn[x+1] + *imIn[x+2]; // on va dire ca our le moment
-            n3++;
-        } else {
-            *imOut[x] = c2;
-            *imOut[x+1] = c2;
-            *imOut[x+2] = c2;
-            c4 += *imIn[x] + *imIn[x+1] + *imIn[x+2]; // on va dire ca our le moment
-            n4++;
+    // image 1
+    parcoursKmean();
+    imOut.save("image-palette1.ppm");
+    
+    // image 2
+    parcoursKmeanMoyenne();
+    imOut.save("image-palette2.ppm");
+
+    // image 3 (repeter)
+    while (!samePalette()) {
+        for (int i = 0; i < palette.size(); i++) {
+            palette[i].r = paletteMoyenne.palette[i].r;
+            palette[i].g = paletteMoyenne.palette[i].g;
+            palette[i].b = paletteMoyenne.palette[i].b;
+            paletteMoyenne.palette[i].r = 0;
+            paletteMoyenne.palette[i].g = 0;
+            paletteMoyenne.palette[i].b = 0;
+            paletteMoyenne.n[i] = 0;
         }
+        parcoursKmean();
+        parcoursKmeanMoyenne();
     }
+    imOut.save("image-palette3.ppm");
 
-    for(int x = 0; x < imIn.getTotalSize(); x += 3) {
-        // classification avec kmean / distance
-        if (d1(*imIn[x]) < d2(*imIn[x])) {
-            *imOut2[x] = c3;
-            *imOut2[x+1] = c3;
-            *imOut2[x+2] = c3;
-        } else {
-            *imOut2[x] = c4;
-            *imOut2[x+1] = c4;
-            *imOut2[x+2] = c4;
-        }
-    }
+    // PSNR
+    std::cout << PSNR();
 
-    // repeter ici en changeant c1 c2 par c3 et c4 trouvées, jusqu'a que c3 ~= c4
-    // peut etre manuellement
-
-    imOut.save("lena_palette1.ppm");
-    imOut2.save("lena_palette2.ppm");
-
+    // 8bits
+    ImageBase imGrey(imIn.getWidth(), imIn.getHeight(), false);
+    parcours8bits(&imGrey);
+    imGrey.save("image-palette4.pgm");
 }
