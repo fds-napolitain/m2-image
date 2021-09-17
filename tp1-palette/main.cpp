@@ -102,28 +102,6 @@ void parcoursKmeanMoyenne() {
     }
 }
 
-double EQM()
-{
-    double eqm_r = 0;
-    double eqm_g = 0;
-    double eqm_b = 0;
-
-    for(int y = 0; y < imIn.getHeight(); y++) {
-        for (int x = 0; x < imIn.getWidth(); x++) {
-            eqm_r += pow(imIn[y][x] - imOut[y][x], 2);
-            eqm_g += pow(imIn[y][x+1] - imOut[y][x+1], 2);
-            eqm_b += pow(imIn[y][x+2] - imOut[y][x+2], 2);
-        }
-    }
-
-    return (eqm_r + eqm_g + eqm_b) / (imIn.getTotalSize() * 3);
-}
-
-double PSNR()
-{
-    return 10 * log10(pow(255, 2) / EQM());
-}
-
 void parcours8bits(ImageBase* imGrey) {
     for(int y = 0; y < imIn.getHeight(); y++) {
         for (int x = 0; x < imIn.getWidth(); x++) {
@@ -177,7 +155,7 @@ int main(int argc, char **argv) {
     imOut.save("image-palette3.ppm");
 
     // PSNR
-    std::cout << PSNR();
+    std::cout << imIn.PSNR(imOut);
 
     // 8bits
     ImageBase imGrey(imIn.getWidth(), imIn.getHeight(), false);

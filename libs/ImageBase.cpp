@@ -227,3 +227,23 @@ unsigned char *ImageBase::operator[](int l)
 	
 	return data+l*width;
 }
+
+double ImageBase::EQM(ImageBase& imOut) {
+	double eqm_r = 0;
+	double eqm_g = 0;
+	double eqm_b = 0;
+
+	for (int y = 0; y < this->getHeight(); y++) {
+		for (int x = 0; x < this->getWidth(); x++) {
+			eqm_r += pow((*this)[y][x] - imOut[y][x], 2);
+			eqm_g += pow((*this)[y][x + 1] - imOut[y][x + 1], 2);
+			eqm_b += pow((*this)[y][x + 2] - imOut[y][x + 2], 2);
+		}
+	}
+
+	return (eqm_r + eqm_g + eqm_b) / (this->getTotalSize() * 3);
+}
+
+double ImageBase::PSNR(ImageBase& imOut) {
+	return 10 * log10(pow(255, 2) / this->EQM(imOut));
+}

@@ -48,6 +48,7 @@ public:
 	
 	///////////// Methodes
 protected:
+	double EQM(ImageBase& imOut);
 
 public:
 	void copy(const ImageBase &copy);
@@ -66,5 +67,7 @@ public:
 	ImageBase *getPlan(PLAN plan);
 
 	unsigned char *operator[](int l);
+	// Calcule le PSNR entre l'image actuel (imIn) et l'image cible (imOut).
+	double PSNR(ImageBase& imOut);
 };
 
