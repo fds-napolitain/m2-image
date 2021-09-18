@@ -7,12 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FB60C70426EF90A500EDF8EF /* ImageBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB60C70126EF90A500EDF8EF /* ImageBase.cpp */; };
 		FB60C70526EF90A500EDF8EF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB60C70326EF90A500EDF8EF /* main.cpp */; };
+		FBDBBDC526F60EB000A9D44D /* ImageBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */; };
+		FBDBBDCD26F61A3100A9D44D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBDBBDCC26F61A3100A9D44D /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		FB60C6F226EF8FEA00EDF8EF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		FBDBBDC826F61A3100A9D44D /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -29,14 +39,23 @@
 		FB60C6FD26EF907B00EDF8EF /* ImageBase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ImageBase.cpp; path = "tp1-palette/ImageBase.cpp"; sourceTree = "<group>"; };
 		FB60C6FE26EF907B00EDF8EF /* image_ppm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = image_ppm.h; path = "tp1-palette/image_ppm.h"; sourceTree = "<group>"; };
 		FB60C6FF26EF907B00EDF8EF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = "tp1-palette/main.cpp"; sourceTree = "<group>"; };
-		FB60C70026EF90A500EDF8EF /* image_ppm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_ppm.h; sourceTree = "<group>"; };
-		FB60C70126EF90A500EDF8EF /* ImageBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageBase.cpp; sourceTree = "<group>"; };
-		FB60C70226EF90A500EDF8EF /* ImageBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageBase.h; sourceTree = "<group>"; };
 		FB60C70326EF90A500EDF8EF /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageBase.cpp; sourceTree = "<group>"; };
+		FBDBBDC326F60EB000A9D44D /* image_ppm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_ppm.h; sourceTree = "<group>"; };
+		FBDBBDC426F60EB000A9D44D /* ImageBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageBase.h; sourceTree = "<group>"; };
+		FBDBBDCA26F61A3100A9D44D /* tp2-espace-couleur */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "tp2-espace-couleur"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FBDBBDCC26F61A3100A9D44D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		FB60C6F126EF8FEA00EDF8EF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FBDBBDC726F61A3100A9D44D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -49,7 +68,9 @@
 		FB60C6D826EF8CD900EDF8EF = {
 			isa = PBXGroup;
 			children = (
+				FBDBBDC126F60EB000A9D44D /* libs */,
 				FB60C6F526EF8FEA00EDF8EF /* tp1-palette */,
+				FBDBBDCB26F61A3100A9D44D /* tp2-espace-couleur */,
 				FB60C6E226EF8CD900EDF8EF /* Products */,
 				FB60C6FB26EF907B00EDF8EF /* Frameworks */,
 			);
@@ -59,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				FB60C6F426EF8FEA00EDF8EF /* tp1-palette */,
+				FBDBBDCA26F61A3100A9D44D /* tp2-espace-couleur */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -66,9 +88,6 @@
 		FB60C6F526EF8FEA00EDF8EF /* tp1-palette */ = {
 			isa = PBXGroup;
 			children = (
-				FB60C70026EF90A500EDF8EF /* image_ppm.h */,
-				FB60C70126EF90A500EDF8EF /* ImageBase.cpp */,
-				FB60C70226EF90A500EDF8EF /* ImageBase.h */,
 				FB60C70326EF90A500EDF8EF /* main.cpp */,
 			);
 			path = "tp1-palette";
@@ -83,6 +102,24 @@
 				FB60C6FF26EF907B00EDF8EF /* main.cpp */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FBDBBDC126F60EB000A9D44D /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */,
+				FBDBBDC326F60EB000A9D44D /* image_ppm.h */,
+				FBDBBDC426F60EB000A9D44D /* ImageBase.h */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		FBDBBDCB26F61A3100A9D44D /* tp2-espace-couleur */ = {
+			isa = PBXGroup;
+			children = (
+				FBDBBDCC26F61A3100A9D44D /* main.cpp */,
+			);
+			path = "tp2-espace-couleur";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -105,6 +142,23 @@
 			productReference = FB60C6F426EF8FEA00EDF8EF /* tp1-palette */;
 			productType = "com.apple.product-type.tool";
 		};
+		FBDBBDC926F61A3100A9D44D /* tp2-espace-couleur */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FBDBBDD026F61A3100A9D44D /* Build configuration list for PBXNativeTarget "tp2-espace-couleur" */;
+			buildPhases = (
+				FBDBBDC626F61A3100A9D44D /* Sources */,
+				FBDBBDC726F61A3100A9D44D /* Frameworks */,
+				FBDBBDC826F61A3100A9D44D /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "tp2-espace-couleur";
+			productName = "tp2-espace-couleur";
+			productReference = FBDBBDCA26F61A3100A9D44D /* tp2-espace-couleur */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -114,6 +168,9 @@
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					FB60C6F326EF8FEA00EDF8EF = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
+					FBDBBDC926F61A3100A9D44D = {
 						CreatedOnToolsVersion = 12.5.1;
 					};
 				};
@@ -132,6 +189,7 @@
 			projectRoot = "";
 			targets = (
 				FB60C6F326EF8FEA00EDF8EF /* tp1-palette */,
+				FBDBBDC926F61A3100A9D44D /* tp2-espace-couleur */,
 			);
 		};
 /* End PBXProject section */
@@ -141,8 +199,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBDBBDC526F60EB000A9D44D /* ImageBase.cpp in Sources */,
 				FB60C70526EF90A500EDF8EF /* main.cpp in Sources */,
-				FB60C70426EF90A500EDF8EF /* ImageBase.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FBDBBDC626F61A3100A9D44D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FBDBBDCD26F61A3100A9D44D /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +346,26 @@
 			};
 			name = Release;
 		};
+		FBDBBDCE26F61A3100A9D44D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GHJHRRHH46;
+				ENABLE_HARDENED_RUNTIME = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FBDBBDCF26F61A3100A9D44D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GHJHRRHH46;
+				ENABLE_HARDENED_RUNTIME = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -297,6 +383,15 @@
 			buildConfigurations = (
 				FB60C6F926EF8FEA00EDF8EF /* Debug */,
 				FB60C6FA26EF8FEA00EDF8EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FBDBBDD026F61A3100A9D44D /* Build configuration list for PBXNativeTarget "tp2-espace-couleur" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FBDBBDCE26F61A3100A9D44D /* Debug */,
+				FBDBBDCF26F61A3100A9D44D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

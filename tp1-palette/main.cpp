@@ -93,11 +93,11 @@ void parcoursKmeanMoyenne() {
                 if (d < distMin) {
                     distMin = d;
                     indexPalette = i;
+                    imOut[y*3][x*3] = paletteMoyenne.palette[indexPalette].r;
+                    imOut[y*3][x*3+1] = paletteMoyenne.palette[indexPalette].g;
+                    imOut[y*3][x*3+2] = paletteMoyenne.palette[indexPalette].b;
                 }
             }
-            imOut[y*3][x*3] = paletteMoyenne.palette[indexPalette].r;
-            imOut[y*3][x*3+1] = paletteMoyenne.palette[indexPalette].g;
-            imOut[y*3][x*3+2] = paletteMoyenne.palette[indexPalette].b;
         }
     }
 }
@@ -120,7 +120,13 @@ void parcours8bits(ImageBase* imGrey) {
 }
 
 int main(int argc, char **argv) {
-    imIn.load("image.ppm");
+    if (argc > 1) {
+        std::cout << argv[0];
+        imIn.load(argv[1]);
+    } else {
+        std::cout << "Argument 1: chemin d'image\n";
+        exit(1);
+    }
     imOut.shallowCopy(imIn);
 
     // palette 256 couleurs
