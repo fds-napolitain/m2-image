@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		FB60C70526EF90A500EDF8EF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB60C70326EF90A500EDF8EF /* main.cpp */; };
-		FBDBBDC526F60EB000A9D44D /* ImageBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */; };
 		FBDBBDCD26F61A3100A9D44D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBDBBDCC26F61A3100A9D44D /* main.cpp */; };
 		FBECD58726F79C9400BFE09C /* ImageBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */; };
+		FBECD58826F7D60700BFE09C /* ImageBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,16 +36,13 @@
 
 /* Begin PBXFileReference section */
 		FB60C6F426EF8FEA00EDF8EF /* tp1-palette */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "tp1-palette"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FB60C6FC26EF907B00EDF8EF /* ImageBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ImageBase.h; path = "tp1-palette/ImageBase.h"; sourceTree = "<group>"; };
-		FB60C6FD26EF907B00EDF8EF /* ImageBase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ImageBase.cpp; path = "tp1-palette/ImageBase.cpp"; sourceTree = "<group>"; };
-		FB60C6FE26EF907B00EDF8EF /* image_ppm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = image_ppm.h; path = "tp1-palette/image_ppm.h"; sourceTree = "<group>"; };
 		FB60C6FF26EF907B00EDF8EF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = "tp1-palette/main.cpp"; sourceTree = "<group>"; };
 		FB60C70326EF90A500EDF8EF /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageBase.cpp; sourceTree = "<group>"; };
 		FBDBBDC326F60EB000A9D44D /* image_ppm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_ppm.h; sourceTree = "<group>"; };
 		FBDBBDC426F60EB000A9D44D /* ImageBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageBase.h; sourceTree = "<group>"; };
 		FBDBBDCA26F61A3100A9D44D /* tp2-espace-couleur */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "tp2-espace-couleur"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FBDBBDCC26F61A3100A9D44D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		FBDBBDCC26F61A3100A9D44D /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,9 +94,6 @@
 		FB60C6FB26EF907B00EDF8EF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FB60C6FE26EF907B00EDF8EF /* image_ppm.h */,
-				FB60C6FD26EF907B00EDF8EF /* ImageBase.cpp */,
-				FB60C6FC26EF907B00EDF8EF /* ImageBase.h */,
 				FB60C6FF26EF907B00EDF8EF /* main.cpp */,
 			);
 			name = Frameworks;
@@ -200,7 +194,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FBDBBDC526F60EB000A9D44D /* ImageBase.cpp in Sources */,
+				FBECD58826F7D60700BFE09C /* ImageBase.cpp in Sources */,
 				FB60C70526EF90A500EDF8EF /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
