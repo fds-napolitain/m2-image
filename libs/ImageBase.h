@@ -16,6 +16,12 @@
 #pragma once
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
+
+#define ROUGE 0
+#define VERT 1
+#define BLEU 2
+
 
 class ImageBase
 {
@@ -69,5 +75,7 @@ public:
 	unsigned char *operator[](int l);
 	// Calcule le PSNR entre l'image actuel (imIn) et l'image cible (imOut).
 	double PSNR(ImageBase& imOut);
+    // Calcule la moyenne des couleurs de pixels voisins par coordonnées
+    unsigned char average_color(int x, int y, std::vector<std::vector<int>> neighbors);
 };
 

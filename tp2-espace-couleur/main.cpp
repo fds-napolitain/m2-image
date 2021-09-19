@@ -25,19 +25,13 @@ int main(int argc, char **argv) {
     for (int y = 0; y < imIn.getHeight(); y++) {
         for (int x = 0; x < imIn.getWidth(); x++) {
             if (x % 2 == 1 || y % 2 == 1) {
-                if (x != imIn.getWidth()-1 && y != imIn.getHeight()-1) {
-                    imOut[y*3][x*3] = (imIn[(y-1)*3][x*3] + imIn[(y+1)*3][x*3] + imIn[y*3][(x-1)*3] + imIn[(y+1)*3][(x+1)*3]) / 4;
-                    imOut[y*3][x*3+2] = (imIn[y*3][(x-1)*3+2] + imIn[y*3][(x+1)*3+2] + imIn[(y-1)*3][x*3+2] + imIn[(y+1)*3][x*3+2]) / 4;
-                } else if (x == imIn.getWidth()-1 && y != imIn.getHeight()-1) {
-                    imOut[y*3][x*3] = (imIn[(y-1)*3][x*3] + imIn[(y+1)*3][x*3] + imIn[y*3][(x-1)*3]) / 3;
-                    imOut[y*3][x*3+2] = (imIn[y*3][(x-1)*3+2] + imIn[(y-1)*3][x*3+2] + imIn[(y+1)*3][x*3+2]) / 3;
-                } else if (x != imIn.getWidth()-1 && y == imIn.getHeight()-1) {
-                    imOut[y*3][x*3] = (imIn[(y-1)*3][x*3] + imIn[y*3][(x+1)*3] + imIn[y*3][(x-1)*3]) / 3;
-                    imOut[y*3][x*3+2] = (imIn[y*3][(x-1)*3+2] + imIn[(y-1)*3][x*3+2] + imIn[y*3][(x+1)*3+2]) / 3;
-                } else if (x == imIn.getWidth()-1 && y == imIn.getHeight()-1) {
-                    imOut[y*3][x*3] = (imIn[(y-1)*3][x*3] + imIn[y*3][(x-1)*3]) / 2;
-                    imOut[y*3][x*3+2] = (imIn[y*3][(x-1)*3+2] + imIn[(y-1)*3][x*3+2]) / 2;
-                }
+                std::vector<int[2]> neighbors;
+                neighbors.push_back({x - 1, y});
+                neighbors.push_back({x + 1, y});
+                neighbors.push_back({x, y - 1});
+                neighbors.push_back({x, y + 1});
+                imOut[y*3][x*3] = imIn.average_color(y*3, x*3, neighbors);
+                imOut[y*3][x*3+2] = imIn.average_color(y*3, x*3+2, neighbors);
             } else {
                 imOut[y*3][x*3] = imIn[y*3][x*3];
                 imOut[y*3][x*3+2] = imIn[y*3][x*3+2];

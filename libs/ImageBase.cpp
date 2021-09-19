@@ -247,3 +247,16 @@ double ImageBase::EQM(ImageBase& imOut) {
 double ImageBase::PSNR(ImageBase& imOut) {
 	return 10 * log10(pow(255, 2) / this->EQM(imOut));
 }
+
+unsigned char ImageBase::average_color(int x, int y, std::vector<std::vector<int>> neighbors) {
+    int total = 0;
+    int n = 0;
+    for (int i = 0; i < neighbors.size(); i++) {
+        if ((neighbors[i][0] >= 0 || neighbors[i][0] < (*this).getWidth()) &&
+            (neighbors[i][1] >= 0 || neighbors[i][1] < (*this).getHeight())) {
+            total += (*this)[neighbors[i][0]][neighbors[i][1]];
+            n++;
+        }
+    }
+    return (unsigned char) total / n;
+}
