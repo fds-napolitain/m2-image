@@ -6,6 +6,7 @@
 //
 
 #include "../libs/ImageBase.h"
+#include <stdio.h>
 #include <iostream>
 
 ImageBase imIn;

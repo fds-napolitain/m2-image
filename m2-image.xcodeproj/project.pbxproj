@@ -10,6 +10,7 @@
 		FB60C70526EF90A500EDF8EF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB60C70326EF90A500EDF8EF /* main.cpp */; };
 		FBDBBDC526F60EB000A9D44D /* ImageBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */; };
 		FBDBBDCD26F61A3100A9D44D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBDBBDCC26F61A3100A9D44D /* main.cpp */; };
+		FBECD58726F79C9400BFE09C /* ImageBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -208,6 +209,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBECD58726F79C9400BFE09C /* ImageBase.cpp in Sources */,
 				FBDBBDCD26F61A3100A9D44D /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
