@@ -54,6 +54,7 @@ float dist(int x, int y, int indicePalette) {
     );
 }
 
+// devrait etre bon
 void parcoursKmean() {
     for(int y = 0; y < imIn.getHeight(); y++) {
         for (int x = 0; x < imIn.getWidth(); x++) {
@@ -83,6 +84,7 @@ void parcoursKmean() {
     }
 }
 
+// bug ici de logique
 void parcoursKmeanMoyenne() {
     int indexPalette = 0;
     float distMin = INFINITY;
@@ -102,6 +104,7 @@ void parcoursKmeanMoyenne() {
     }
 }
 
+// dépend d'au dessus
 void parcours8bits(ImageBase* imGrey) {
     for(int y = 0; y < imIn.getHeight(); y++) {
         for (int x = 0; x < imIn.getWidth(); x++) {

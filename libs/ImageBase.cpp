@@ -247,3 +247,4 @@ double ImageBase::EQM(ImageBase& imOut) {
 double ImageBase::PSNR(ImageBase& imOut) {
 	return 10 * log10(pow(255, 2) / this->EQM(imOut));
 }
+
