@@ -77,5 +77,7 @@ public:
 	double PSNR(ImageBase& imOut);
     // Calcule la moyenne des couleurs de pixels voisins par coordonnées
     unsigned char average_color(int x, int y, std::vector<std::vector<int>> neighbors);
+    ImageBase rgb_to_ycrcb();
+    ImageBase ycrcb_to_rgb();
 };
 

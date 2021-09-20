@@ -66,8 +66,8 @@ void ImageBase::reset()
 {
 	if(isValid)
 	{
-		free(data);
-		free(dataD);
+		//free(data);
+		//free(dataD);
 	}
 	isValid = false;
 }
@@ -254,9 +254,35 @@ unsigned char ImageBase::average_color(int x, int y, std::vector<std::vector<int
     for (int i = 0; i < neighbors.size(); i++) {
         if ((neighbors[i][0] >= 0 || neighbors[i][0] < (*this).getWidth()) &&
             (neighbors[i][1] >= 0 || neighbors[i][1] < (*this).getHeight())) {
-            total += (*this)[neighbors[i][0]][neighbors[i][1]];
+            total += (int) (*this)[neighbors[i][1]][neighbors[i][0]];
             n++;
         }
     }
     return (unsigned char) total / n;
+}
+
+ImageBase ImageBase::rgb_to_ycrcb() {
+    ImageBase imOut((*this).getWidth(), (*this).getHeight(), (*this).getColor());
+    for (int y = 0; y < (*this).getHeight(); y++) {
+        for (int x = 0; x < (*this).getWidth(); x++) {
+            imOut[y*3][x*3] = 0.299 * (*this)[y*3][x*3] + 0.587 * (*this)[y*3][x*3+1] + 0.114 * (*this)[y*3][x*3+2]; // Y
+            imOut[y*3][x*3+1] = -0.1687 * (*this)[y*3][x*3] - 0.3313 * (*this)[y*3][x*3+1] + 0.5 * (*this)[y*3][x*3+2] + 128; // Cr
+            imOut[y*3][x*3+2] = 0.5 * (*this)[y*3][x*3] - 0.4187 * (*this)[y*3][x*3+1] - 0.0813 * (*this)[y*3][x*3+2] + 128; // Cb
+        }
+    }
+    return imOut;
+}
+
+ImageBase ImageBase::ycrcb_to_rgb() {
+    ImageBase imOut((*this).getWidth(), (*this).getHeight(), (*this).getColor());
+    for (int y = 0; y < (*this).getHeight(); y++) {
+        for (int x = 0; x < (*this).getWidth(); x++) {
+            unsigned char cr = imOut[y*3][x*3+1];
+            unsigned char cb = imOut[y*3][x*3+2];
+            imOut[y*3][x*3] = (unsigned char) (*this)[y*3][x*3] + 1.402 * (cr - 128); // R
+            imOut[y*3][x*3+1] = (unsigned char) (*this)[y*3][x*3] - 0.34414 * (cb - 128) - 0.71414 * (cr - 128); // g
+            imOut[y*3][x*3+2] = (unsigned char) (*this)[y*3][x*3] + 1.772 * (cb - 128); // b
+        }
+    }
+    return imOut;
 }
