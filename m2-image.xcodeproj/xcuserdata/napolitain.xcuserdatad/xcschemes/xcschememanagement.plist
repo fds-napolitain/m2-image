@@ -19,9 +19,19 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
+		<key>tp3-huffman.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>FB0CB1852700D1E2001E598C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>FB60C6F326EF8FEA00EDF8EF</key>
 		<dict>
 			<key>primary</key>

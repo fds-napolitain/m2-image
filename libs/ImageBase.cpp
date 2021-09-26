@@ -339,5 +339,5 @@ void ImageBase::histogram() {
         }
     }
     outfile.close();
-    std::cout << "Histogramme écrit.\n";
+    std::cout << "\nHistogramme écrit.\n";
 }

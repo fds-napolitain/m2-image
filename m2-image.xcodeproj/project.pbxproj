@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB0CB1892700D1E2001E598C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0CB1882700D1E2001E598C /* main.cpp */; };
+		FB0CB18F2700D6A1001E598C /* ImageBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */; };
 		FB60C70526EF90A500EDF8EF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB60C70326EF90A500EDF8EF /* main.cpp */; };
 		FBDBBDCD26F61A3100A9D44D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBDBBDCC26F61A3100A9D44D /* main.cpp */; };
 		FBECD58726F79C9400BFE09C /* ImageBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */; };
@@ -14,6 +16,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		FB0CB1842700D1E2001E598C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		FB60C6F226EF8FEA00EDF8EF /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -35,6 +46,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FB0CB1862700D1E2001E598C /* tp3-huffman */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "tp3-huffman"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB0CB1882700D1E2001E598C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		FB0CB18D2700D4A1001E598C /* Huffman.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Huffman.c; sourceTree = "<group>"; };
 		FB60C6F426EF8FEA00EDF8EF /* tp1-palette */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "tp1-palette"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB60C6FF26EF907B00EDF8EF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = "tp1-palette/main.cpp"; sourceTree = "<group>"; };
 		FB60C70326EF90A500EDF8EF /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -46,6 +60,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		FB0CB1832700D1E2001E598C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FB60C6F126EF8FEA00EDF8EF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -63,12 +84,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FB0CB1872700D1E2001E598C /* tp3-huffman */ = {
+			isa = PBXGroup;
+			children = (
+				FB0CB1882700D1E2001E598C /* main.cpp */,
+				FB0CB18D2700D4A1001E598C /* Huffman.c */,
+			);
+			path = "tp3-huffman";
+			sourceTree = "<group>";
+		};
 		FB60C6D826EF8CD900EDF8EF = {
 			isa = PBXGroup;
 			children = (
 				FBDBBDC126F60EB000A9D44D /* libs */,
 				FB60C6F526EF8FEA00EDF8EF /* tp1-palette */,
 				FBDBBDCB26F61A3100A9D44D /* tp2-espace-couleur */,
+				FB0CB1872700D1E2001E598C /* tp3-huffman */,
 				FB60C6E226EF8CD900EDF8EF /* Products */,
 				FB60C6FB26EF907B00EDF8EF /* Frameworks */,
 			);
@@ -79,6 +110,7 @@
 			children = (
 				FB60C6F426EF8FEA00EDF8EF /* tp1-palette */,
 				FBDBBDCA26F61A3100A9D44D /* tp2-espace-couleur */,
+				FB0CB1862700D1E2001E598C /* tp3-huffman */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -120,6 +152,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		FB0CB1852700D1E2001E598C /* tp3-huffman */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FB0CB18A2700D1E2001E598C /* Build configuration list for PBXNativeTarget "tp3-huffman" */;
+			buildPhases = (
+				FB0CB1822700D1E2001E598C /* Sources */,
+				FB0CB1832700D1E2001E598C /* Frameworks */,
+				FB0CB1842700D1E2001E598C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "tp3-huffman";
+			productName = "tp3-huffman";
+			productReference = FB0CB1862700D1E2001E598C /* tp3-huffman */;
+			productType = "com.apple.product-type.tool";
+		};
 		FB60C6F326EF8FEA00EDF8EF /* tp1-palette */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FB60C6F826EF8FEA00EDF8EF /* Build configuration list for PBXNativeTarget "tp1-palette" */;
@@ -162,6 +211,9 @@
 			attributes = {
 				LastUpgradeCheck = 1300;
 				TargetAttributes = {
+					FB0CB1852700D1E2001E598C = {
+						CreatedOnToolsVersion = 13.0;
+					};
 					FB60C6F326EF8FEA00EDF8EF = {
 						CreatedOnToolsVersion = 12.5.1;
 					};
@@ -185,11 +237,21 @@
 			targets = (
 				FB60C6F326EF8FEA00EDF8EF /* tp1-palette */,
 				FBDBBDC926F61A3100A9D44D /* tp2-espace-couleur */,
+				FB0CB1852700D1E2001E598C /* tp3-huffman */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		FB0CB1822700D1E2001E598C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB0CB18F2700D6A1001E598C /* ImageBase.cpp in Sources */,
+				FB0CB1892700D1E2001E598C /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FB60C6F026EF8FEA00EDF8EF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -211,6 +273,28 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		FB0CB18B2700D1E2001E598C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GHJHRRHH46;
+				ENABLE_HARDENED_RUNTIME = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FB0CB18C2700D1E2001E598C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GHJHRRHH46;
+				ENABLE_HARDENED_RUNTIME = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		FB60C6E626EF8CD900EDF8EF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -367,6 +451,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		FB0CB18A2700D1E2001E598C /* Build configuration list for PBXNativeTarget "tp3-huffman" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB0CB18B2700D1E2001E598C /* Debug */,
+				FB0CB18C2700D1E2001E598C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		FB60C6DC26EF8CD900EDF8EF /* Build configuration list for PBXProject "m2-image" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
