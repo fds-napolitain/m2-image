@@ -16,7 +16,9 @@
 #pragma once
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 #include <vector>
+#include <fstream>
 
 #define ROUGE 0
 #define VERT 1
@@ -79,5 +81,6 @@ public:
     unsigned char average_color(int x, int y, std::vector<std::vector<int>> neighbors);
     ImageBase rgb_to_ycrcb();
     ImageBase ycrcb_to_rgb();
+    void histogram();
 };
 

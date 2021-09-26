@@ -5,7 +5,7 @@
 //  Created by Maxime Boucher on 18/09/2021.
 //
 
-#include "../libs/ImageBase.h"
+#include "../libs/ImageBase.hpp"
 #include <stdio.h>
 #include <iostream>
 
@@ -49,6 +49,7 @@ int main(int argc, char **argv) {
     }
     
     imOut.save("tp2-i1.ppm");
+    imOut.histogram();
     // PSNR
     std::cout << "\n" << imIn.PSNR(imOut);
     
@@ -79,7 +80,8 @@ int main(int argc, char **argv) {
         }
     }
     // to rgb
-    ImageBase imOut3 = imOut.ycrcb_to_rgb();
-    std::cout << "\n" << imIn.PSNR(imOut);
-    imOut.save("tp2-i2.ppm");
+    imOut2.save("tp2-i2.ppm");
+    ImageBase imOut3 = imOut2.ycrcb_to_rgb();
+    std::cout << "\n" << imIn.PSNR(imOut3);
+    imOut3.save("tp2-i3.ppm");
 }

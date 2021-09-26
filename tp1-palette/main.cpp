@@ -1,4 +1,4 @@
-#include "../libs/ImageBase.h"
+#include "../libs/ImageBase.hpp"
 #include <stdio.h>
 #include <iostream>
 #include <math.h>

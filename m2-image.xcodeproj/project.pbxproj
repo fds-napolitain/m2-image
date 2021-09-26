@@ -39,8 +39,8 @@
 		FB60C6FF26EF907B00EDF8EF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = "tp1-palette/main.cpp"; sourceTree = "<group>"; };
 		FB60C70326EF90A500EDF8EF /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageBase.cpp; sourceTree = "<group>"; };
-		FBDBBDC326F60EB000A9D44D /* image_ppm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_ppm.h; sourceTree = "<group>"; };
-		FBDBBDC426F60EB000A9D44D /* ImageBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageBase.h; sourceTree = "<group>"; };
+		FBDBBDC326F60EB000A9D44D /* image_ppm.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = image_ppm.hpp; sourceTree = "<group>"; };
+		FBDBBDC426F60EB000A9D44D /* ImageBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ImageBase.hpp; sourceTree = "<group>"; };
 		FBDBBDCA26F61A3100A9D44D /* tp2-espace-couleur */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "tp2-espace-couleur"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBDBBDCC26F61A3100A9D44D /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,8 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */,
-				FBDBBDC326F60EB000A9D44D /* image_ppm.h */,
-				FBDBBDC426F60EB000A9D44D /* ImageBase.h */,
+				FBDBBDC326F60EB000A9D44D /* image_ppm.hpp */,
+				FBDBBDC426F60EB000A9D44D /* ImageBase.hpp */,
 			);
 			path = libs;
 			sourceTree = "<group>";
@@ -160,7 +160,7 @@
 		FB60C6D926EF8CD900EDF8EF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1300;
 				TargetAttributes = {
 					FB60C6F326EF8FEA00EDF8EF = {
 						CreatedOnToolsVersion = 12.5.1;
@@ -335,6 +335,7 @@
 		FB60C6FA26EF8FEA00EDF8EF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GHJHRRHH46;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -355,6 +356,7 @@
 		FBDBBDCF26F61A3100A9D44D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GHJHRRHH46;
 				ENABLE_HARDENED_RUNTIME = YES;

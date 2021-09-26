@@ -13,10 +13,15 @@
 *
 *******************************************************************************/
 
-#include "ImageBase.h"
-#include "image_ppm.h"
+#include "ImageBase.hpp"
+#include "image_ppm.hpp"
 
-
+int clip(int n, int lower, int upper) {
+    if (n < lower || n > upper) {
+        return 255-n;
+    }
+    return n;
+}
 
 ImageBase::ImageBase(void)
 {
@@ -265,9 +270,9 @@ ImageBase ImageBase::rgb_to_ycrcb() {
     ImageBase imOut((*this).getWidth(), (*this).getHeight(), (*this).getColor());
     for (int y = 0; y < (*this).getHeight(); y++) {
         for (int x = 0; x < (*this).getWidth(); x++) {
-            imOut[y*3][x*3] = 0.299 * (*this)[y*3][x*3] + 0.587 * (*this)[y*3][x*3+1] + 0.114 * (*this)[y*3][x*3+2]; // Y
-            imOut[y*3][x*3+1] = -0.1687 * (*this)[y*3][x*3] - 0.3313 * (*this)[y*3][x*3+1] + 0.5 * (*this)[y*3][x*3+2] + 128; // Cr
-            imOut[y*3][x*3+2] = 0.5 * (*this)[y*3][x*3] - 0.4187 * (*this)[y*3][x*3+1] - 0.0813 * (*this)[y*3][x*3+2] + 128; // Cb
+            imOut[y*3][x*3] = 0.257 * (*this)[y*3][x*3] + 0.504 * (*this)[y*3][x*3+1] + 0.098* (*this)[y*3][x*3+2] + 16; // Y
+            imOut[y*3][x*3+1] = -0.148 * (*this)[y*3][x*3] - 0.291 * (*this)[y*3][x*3+1] + 0.439 * (*this)[y*3][x*3+2] + 128; // Cr
+            imOut[y*3][x*3+2] = 0.439 * (*this)[y*3][x*3] - 0.368 * (*this)[y*3][x*3+1] - 0.071 * (*this)[y*3][x*3+2] + 128; // Cb
         }
     }
     return imOut;
@@ -277,12 +282,62 @@ ImageBase ImageBase::ycrcb_to_rgb() {
     ImageBase imOut((*this).getWidth(), (*this).getHeight(), (*this).getColor());
     for (int y = 0; y < (*this).getHeight(); y++) {
         for (int x = 0; x < (*this).getWidth(); x++) {
-            unsigned char cr = imOut[y*3][x*3+1];
-            unsigned char cb = imOut[y*3][x*3+2];
-            imOut[y*3][x*3] = (unsigned char) (*this)[y*3][x*3] + 1.402 * (cr - 128); // R
-            imOut[y*3][x*3+1] = (unsigned char) (*this)[y*3][x*3] - 0.34414 * (cb - 128) - 0.71414 * (cr - 128); // g
-            imOut[y*3][x*3+2] = (unsigned char) (*this)[y*3][x*3] + 1.772 * (cb - 128); // b
+            unsigned char cr = (int) imOut[y*3][x*3+1];
+            unsigned char cb = (int) imOut[y*3][x*3+2];
+            imOut[y*3][x*3] = (298.082 - (*this)[y*3][x*3]) / 256 + (408.583 - cr) / 256 - 222.921; // R
+            imOut[y*3][x*3+1] = (298.082 - (*this)[y*3][x*3]) / 256 - (100.291 * cb) / 256 - (208.120 * cr) / 256 + 135.576; // g
+            imOut[y*3][x*3+2] = (298.082 - (*this)[y*3][x*3]) / 256 + (516.412 * cb) / 256 - 276.836; // b
         }
     }
     return imOut;
+}
+
+/**
+ Structure d'un histogramme utilisé par ImageBase::histogram()
+ */
+struct Histogram {
+    int data[256][3];
+};
+
+/**
+ Créé un histogramme histogram.csv à coté du binaire sous le format
+ couleurs;rouge;vert;bleu
+ */
+void ImageBase::histogram() {
+    std::ofstream outfile("histogram.csv");
+    Histogram histogram;
+    int depth = 256;
+    if (color) { // rgb
+        for (int i = 0; i < depth; i++) {
+            histogram.data[i][0] = 0;
+            histogram.data[i][1] = 0;
+            histogram.data[i][2] = 0;
+        }
+        for (int i = 0; i < getHeight(); ++i) {
+            for (int j = 0; j < getWidth(); ++j) {
+                histogram.data[(*this)[i*3][j*3]][0]++;
+                histogram.data[(*this)[i*3][j*3+1]][1]++;
+                histogram.data[(*this)[i*3][j*3+2]][2]++;
+            }
+        }
+        outfile << "couleurs;rouge;vert;bleu" << std::endl;
+        for (int i = 0; i < depth; i++) {
+            outfile << i << ";" << histogram.data[i][0] << ";" << histogram.data[i][1] << ";" << histogram.data[i][2] << std::endl;
+        }
+    } else { // greyscale
+        for (int i = 0; i < depth; i++) {
+            histogram.data[i][0] = 0;
+        }
+        for (int i = 0; i < getHeight(); ++i) {
+            for (int j = 0; j < getWidth(); ++j) {
+                histogram.data[(*this)[i][j]][0]++;
+            }
+        }
+        outfile << "couleur;gris" << std::endl;
+        for (int i = 0; i < depth; i++) {
+            outfile << i << ";" << histogram.data[i][0] << std::endl;
+        }
+    }
+    outfile.close();
+    std::cout << "Histogramme écrit.\n";
 }
