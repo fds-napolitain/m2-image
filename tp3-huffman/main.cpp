@@ -22,4 +22,14 @@ int main(int argc, char** argv) {
     
     // question 1: histogramme
     imIn.histogram();
+    
+    // question 2
+    // cartes des différences
+    for (int y = 0; y < imOut.getHeight(); y++) {
+        for (int x = 0; x < imOut.getWidth(); x++) {
+            imOut[y][x] = imIn.difference(x, y);
+        }
+    }
+    imOut.histogram();
+    imOut.save("difference.pgm");
 }

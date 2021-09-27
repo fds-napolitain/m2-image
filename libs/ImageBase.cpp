@@ -341,3 +341,14 @@ void ImageBase::histogram() {
     outfile.close();
     std::cout << "\nHistogramme écrit.\n";
 }
+
+/**
+ Fonction en nuances de gris pour le moment
+ */
+unsigned char ImageBase::difference(int x, int y) {
+    if (x == 0) {
+        return (*this)[y][x];
+    } else {
+        return (*this)[y][x] - (*this)[y][x-1];
+    }
+}

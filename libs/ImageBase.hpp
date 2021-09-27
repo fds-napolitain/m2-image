@@ -82,5 +82,6 @@ public:
     ImageBase rgb_to_ycrcb();
     ImageBase ycrcb_to_rgb();
     void histogram();
+    unsigned char difference(int x, int y);
 };
 
