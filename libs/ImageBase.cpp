@@ -349,6 +349,8 @@ unsigned char ImageBase::difference(int x, int y) {
     if (x == 0) {
         return (*this)[y][x];
     } else {
-        return (*this)[y][x] - (*this)[y][x-1];
+        return (*this)[y][x] - (*this)[y][x-1] + 128;
     }
 }
+
+
