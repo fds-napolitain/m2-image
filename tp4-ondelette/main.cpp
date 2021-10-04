@@ -18,6 +18,6 @@ int main(int argc, char * argv[]) {
         exit(1);
     }
     
-    ImageBase imOut = imIn.ondelette_harr(3);
+    ImageBase imOut = imIn.ondelette_harr(1);
     imOut.save("tp4-i1.pgm");
 }

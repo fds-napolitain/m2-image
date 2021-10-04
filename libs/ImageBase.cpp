@@ -23,6 +23,20 @@ int clip(int n, int lower, int upper) {
     return n;
 }
 
+ImageBase fusion4(ImageBase i1, ImageBase i2, ImageBase i3, ImageBase i4) {
+    ImageBase imOut(i1.getWidth()*2, i1.getHeight()*2, i1.getColor());
+    std::cout << "\nFusion!";
+    for (int j = 0; j < i1.getHeight(); j++) {
+        for (int i = 0; i < i1.getWidth(); i++) {
+            imOut[j][i] = i1[j][i];
+            imOut[j][i1.getWidth() + i] = i2[j][i];
+            imOut[i1.getHeight() + j][i] = i3[j][i];
+            imOut[i1.getHeight() + j][i1.getWidth() + i] = i4[j][i];
+        }
+    }
+    return imOut;
+}
+
 ImageBase::ImageBase(void)
 {
 	isValid = false;
@@ -358,22 +372,23 @@ unsigned char ImageBase::difference(int x, int y) {
  Retourne une image correspondant à la transformée en ondelette de Harr.
  */
 ImageBase ImageBase::ondelette_harr(int n) {
-    ImageBase lower((*this).getWidth()/2, (*this).getHeight()/2, (*this).getColor()); // low frequencies
-    ImageBase medium_v((*this).getWidth()/2, (*this).getHeight()/2, (*this).getColor());; // medium frequencies verticale
-    ImageBase medium_h((*this).getWidth()/2, (*this).getHeight()/2, (*this).getColor());; // medium frequencies horizontale
-    ImageBase higher((*this).getWidth()/2, (*this).getHeight()/2, (*this).getColor());; // higher frequencies
+    ImageBase lower(getWidth()/2, getHeight()/2, getColor()); // low frequencies
+    ImageBase medium_v(getWidth()/2, getHeight()/2, getColor());; // medium frequencies verticale
+    ImageBase medium_h(getWidth()/2, getHeight()/2, getColor());; // medium frequencies horizontale
+    ImageBase higher(getWidth()/2, getHeight()/2, getColor());; // higher frequencies
     if (!color) {
-        for (int j = 0; j < (*this).getHeight(); j += 2) {
-            for (int i = 0; i < (*this).getWidth(); i += 2) {
+        for (int j = 0; j < getHeight()-1; j += 2) {
+            for (int i = 0; i < getWidth()-1; i += 2) {
                 lower[j/2][i/2] = ((*this)[j][i] + (*this)[j][i+1] + (*this)[j+1][i] + (*this)[j+1][i+1]) / 4;
-                medium_v[j/2][(*this).getWidth()/2 + i/2] = ((*this)[j][i] + (*this)[j][i+1] - (*this)[j+1][i] - (*this)[j+1][i+1]) / 2;
-                medium_h[(*this).getHeight()/2 + j/2][i/2] = ((*this)[j][i] - (*this)[j][i+1] + (*this)[j+1][i] - (*this)[j+1][i+1]) / 2;
-                higher[(*this).getHeight()/2 + j/2][(*this).getWidth()/2 + i/2] = ((*this)[j][i] - (*this)[j][i+1] - (*this)[j+1][i] + (*this)[j+1][i+1]);
+                medium_v[j/2][getWidth()/2 + i/2] = ((*this)[j][i] + (*this)[j][i+1] - (*this)[j+1][i] - (*this)[j+1][i+1]) / 2;
+                medium_h[getHeight()/2 + j/2][i/2] = ((*this)[j][i] - (*this)[j][i+1] + (*this)[j+1][i] - (*this)[j+1][i+1]) / 2;
+                higher[getHeight()/2 + j/2][getWidth()/2 + i/2] = (*this)[j][i] - (*this)[j][i+1] - (*this)[j+1][i] + (*this)[j+1][i+1];
             }
         }
     }
     if (n > 1) {
-        return fusion4(lower.ondelette_harr(n-1), medium_v.ondelette_harr(n-1), medium_h.ondelette_harr(n-1), higher.ondelette_harr(n-1));
+        std::cout << "\nOndelette!";
+        return fusion4(lower.ondelette_harr(n-1), medium_v, medium_h, higher);
     } else {
         return fusion4(lower, medium_v, medium_h, higher);
     }

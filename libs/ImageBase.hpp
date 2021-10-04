@@ -86,16 +86,3 @@ public:
     ImageBase ondelette_harr(int n);
     void operator+(const ImageBase& img);
 };
-
-ImageBase fusion4(ImageBase i1, ImageBase i2, ImageBase i3, ImageBase i4) {
-    ImageBase imOut(i1.getWidth()*2, i1.getHeight()*2, i1.getColor());
-    for (int j = 0; j < i1.getHeight(); j += 2) {
-        for (int i = 0; i < i2.getWidth(); i += 2) {
-            imOut[j][i] = i1[j][i];
-            imOut[j][i1.getWidth() + i] = i2[j][i];
-            imOut[i1.getHeight() + j][i] = i3[j][i];
-            imOut[i1.getHeight() + j][i1.getWidth() + i] = i3[j][i];
-        }
-    }
-    return imOut;
-}
