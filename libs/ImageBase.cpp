@@ -377,12 +377,12 @@ ImageBase ImageBase::ondelette_harr(int n) {
     ImageBase medium_h(getWidth()/2, getHeight()/2, getColor());; // medium frequencies horizontale
     ImageBase higher(getWidth()/2, getHeight()/2, getColor());; // higher frequencies
     if (!color) {
-        for (int j = 0; j < getHeight()-1; j += 2) {
-            for (int i = 0; i < getWidth()-1; i += 2) {
-                lower[j/2][i/2] = ((*this)[j][i] + (*this)[j][i+1] + (*this)[j+1][i] + (*this)[j+1][i+1]) / 4;
-                medium_v[j/2][getWidth()/2 + i/2] = ((*this)[j][i] + (*this)[j][i+1] - (*this)[j+1][i] - (*this)[j+1][i+1]) / 2;
-                medium_h[getHeight()/2 + j/2][i/2] = ((*this)[j][i] - (*this)[j][i+1] + (*this)[j+1][i] - (*this)[j+1][i+1]) / 2;
-                higher[getHeight()/2 + j/2][getWidth()/2 + i/2] = (*this)[j][i] - (*this)[j][i+1] - (*this)[j+1][i] + (*this)[j+1][i+1];
+        for (int j = 0; j < getHeight()/2; j++) {
+            for (int i = 0; i < getWidth()/2; i++) {
+                lower[j][i] = ((*this)[j][i] + (*this)[j][i+1] + (*this)[j+1][i] + (*this)[j+1][i+1]) / 4;
+                medium_v[j][i] = ((*this)[j][getWidth()/2 + i] + (*this)[j][getWidth()/2 + i+1] - (*this)[j+1][getWidth()/2 + i] - (*this)[j+1][getWidth()/2 + i+1]) / 2;
+                medium_h[j][i] = ((*this)[getHeight() + j][i] - (*this)[getHeight() + j][i+1] + (*this)[getHeight() + j+1][i] - (*this)[getHeight() + j+1][i+1]) / 2;
+                higher[j][i] = (*this)[getHeight() + j][getWidth()/2 + i] - (*this)[getHeight() + j][getWidth()/2 + i+1] - (*this)[getHeight() + j+1][getWidth()/2 + i] + (*this)[getHeight() + j+1][getWidth()/2 + i+1];
             }
         }
     }
