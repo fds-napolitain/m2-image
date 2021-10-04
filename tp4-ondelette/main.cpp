@@ -17,6 +17,7 @@ int main(int argc, char * argv[]) {
         std::cout << "Argument 1: chemin d'image\n";
         exit(1);
     }
-    ImageBase imOut(imIn.getWidth(), imIn.getHeight(), imIn.getColor());
-
+    
+    ImageBase imOut = imIn.ondelette_harr(3);
+    imOut.save("tp4-i1.pgm");
 }

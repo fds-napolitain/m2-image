@@ -353,4 +353,28 @@ unsigned char ImageBase::difference(int x, int y) {
     }
 }
 
-
+/**
+ Fonctionne sur une image de taille binaire entière.
+ Retourne une image correspondant à la transformée en ondelette de Harr.
+ */
+ImageBase ImageBase::ondelette_harr(int n) {
+    ImageBase lower((*this).getWidth()/2, (*this).getHeight()/2, (*this).getColor()); // low frequencies
+    ImageBase medium_v((*this).getWidth()/2, (*this).getHeight()/2, (*this).getColor());; // medium frequencies verticale
+    ImageBase medium_h((*this).getWidth()/2, (*this).getHeight()/2, (*this).getColor());; // medium frequencies horizontale
+    ImageBase higher((*this).getWidth()/2, (*this).getHeight()/2, (*this).getColor());; // higher frequencies
+    if (!color) {
+        for (int j = 0; j < (*this).getHeight(); j += 2) {
+            for (int i = 0; i < (*this).getWidth(); i += 2) {
+                lower[j/2][i/2] = ((*this)[j][i] + (*this)[j][i+1] + (*this)[j+1][i] + (*this)[j+1][i+1]) / 4;
+                medium_v[j/2][(*this).getWidth()/2 + i/2] = ((*this)[j][i] + (*this)[j][i+1] - (*this)[j+1][i] - (*this)[j+1][i+1]) / 2;
+                medium_h[(*this).getHeight()/2 + j/2][i/2] = ((*this)[j][i] - (*this)[j][i+1] + (*this)[j+1][i] - (*this)[j+1][i+1]) / 2;
+                higher[(*this).getHeight()/2 + j/2][(*this).getWidth()/2 + i/2] = ((*this)[j][i] - (*this)[j][i+1] - (*this)[j+1][i] + (*this)[j+1][i+1]);
+            }
+        }
+    }
+    if (n > 1) {
+        return fusion4(lower.ondelette_harr(n-1), medium_v.ondelette_harr(n-1), medium_h.ondelette_harr(n-1), higher.ondelette_harr(n-1));
+    } else {
+        return fusion4(lower, medium_v, medium_h, higher);
+    }
+}
