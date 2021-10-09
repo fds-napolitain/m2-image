@@ -382,7 +382,7 @@ ImageBase ImageBase::ondelette_harr(int n) {
                 lower[j/2][i/2] = ((*this)[j][i] + (*this)[j][i+1] + (*this)[j+1][i] + (*this)[j+1][i+1]) / 4;
                 medium_v[j/2][i/2] = (((*this)[j][i] + (*this)[j][i+1] - (*this)[j+1][i] - (*this)[j+1][i+1]) / 2 + 256) / 512.0 * 255;
                 medium_h[j/2][i/2] = (((*this)[j][i] - (*this)[j][i+1] + (*this)[j+1][i] - (*this)[j+1][i+1]) / 2 + 256) / 512.0 * 255;
-                higher[j/2][i/2] = ((*this)[j][i] - (*this)[j][i+1] - (*this)[j+1][i] + (*this)[j+1][i+1] + 512) / 1024.0 * 255;
+                higher[j/2][i/2] = ((*this)[j][i] - (*this)[j][i+1] - (*this)[j+1][i] + (*this)[j+1][i+1] + 512) / 1023.0 * 255;
             }
         }
     }
