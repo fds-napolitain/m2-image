@@ -386,10 +386,14 @@ ImageBase ImageBase::ondelette_harr(int n) {
             }
         }
     }
+    std::cout << "\nOndelette!";
     if (n > 1) {
-        std::cout << "\nOndelette!";
         return fusion4(lower.ondelette_harr(n-1), medium_v, medium_h, higher);
     } else {
         return fusion4(lower, medium_v, medium_h, higher);
     }
 }
+
+/*ImageBase ImageBase::ondelette_harr_inverse(int n) {
+    
+}*/

@@ -84,5 +84,6 @@ public:
     void histogram();
     unsigned char difference(int x, int y);
     ImageBase ondelette_harr(int n);
+    ImageBase ondelette_harr_inverse(int n);
     void operator+(const ImageBase& img);
 };
