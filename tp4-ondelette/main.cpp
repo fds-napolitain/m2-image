@@ -6,6 +6,7 @@
 //
 
 #include <iostream>
+#include <math.h>
 #include "../libs/ImageBase.hpp"
 
 int main(int argc, char * argv[]) {
@@ -18,6 +19,6 @@ int main(int argc, char * argv[]) {
         exit(1);
     }
     
-    ImageBase imOut = imIn.ondelette_harr(3);
+    ImageBase imOut = imIn.ondelette_haar(3, 1, true);
     imOut.save("tp4-i1.pgm");
 }

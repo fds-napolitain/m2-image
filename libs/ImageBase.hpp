@@ -83,7 +83,6 @@ public:
     ImageBase ycrcb_to_rgb();
     void histogram();
     unsigned char difference(int x, int y);
-    ImageBase ondelette_harr(int n);
-    ImageBase ondelette_harr_inverse(int n);
+    ImageBase ondelette_haar(int n, int q, bool reconstruction);
     void operator+(const ImageBase& img);
 };

@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
     }
     ImageBase imOut(imIn.getWidth(), imIn.getHeight(), imIn.getColor());
     
-    // réduire de moitié 2 composantes de RGB (ex: R et B)
+    // réduire de moitié 2 composajntes de RGB (ex: R et B)
     // réechantillonner pour avoir une taille originale de l'image
     for (int y = 0; y < imIn.getHeight(); y++) {
         for (int x = 0; x < imIn.getWidth(); x++) {

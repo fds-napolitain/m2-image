@@ -23,6 +23,14 @@ int clip(int n, int lower, int upper) {
     return n;
 }
 
+/**
+ * Assemble 4 images de taille égale tel que
+ * i1 i2
+ * i3 i4
+ * =>
+ * i5 i5
+ * i5 i5
+ */
 ImageBase fusion4(ImageBase i1, ImageBase i2, ImageBase i3, ImageBase i4) {
     ImageBase imOut(i1.getWidth()*2, i1.getHeight()*2, i1.getColor());
     std::cout << "\nFusion!";
@@ -32,6 +40,29 @@ ImageBase fusion4(ImageBase i1, ImageBase i2, ImageBase i3, ImageBase i4) {
             imOut[j][i1.getWidth() + i] = i2[j][i];
             imOut[i1.getHeight() + j][i] = i3[j][i];
             imOut[i1.getHeight() + j][i1.getWidth() + i] = i4[j][i];
+        }
+    }
+    return imOut;
+}
+
+/**
+ * Fonction utilisée dans la transformée en ondelette de Haar avec reconstruction.
+ * Assemble 4 images de taille égale tel que
+ * i1 i2
+ * i3 i4
+ * =>
+ * i5 i5
+ * i5 i5
+ */
+ImageBase reconstructionHaar4(ImageBase i1, ImageBase i2, ImageBase i3, ImageBase i4) {
+    ImageBase imOut(i1.getWidth()*2, i1.getHeight()*2, i1.getColor());
+    std::cout << "\nReconstruction!";
+    for (int j = 0; j < i1.getHeight(); j++) {
+        for (int i = 0; i < i1.getWidth(); i++) {
+            imOut[j*2][i*2] = i1[j][i];
+            imOut[j*2][i*2+1] = i1[j][i] + i2[j][i] - 128;
+            imOut[j*2+1][i*2] = i1[j][i] + i3[j][i] - 128;
+            imOut[j*2][i*2+1] = i1[j][i] + i2[j][i] + i3[j][i] - 256;
         }
     }
     return imOut;
@@ -368,10 +399,11 @@ unsigned char ImageBase::difference(int x, int y) {
 }
 
 /**
- Fonctionne sur une image de taille binaire entière.
- Retourne une image correspondant à la transformée en ondelette de Harr.
+ * Fonctionne sur une image de taille binaire entière.
+ * Retourne une image correspondant à la transformée en ondelette de Harr.
+ * Si q = 1, alors pas de quantification.
  */
-ImageBase ImageBase::ondelette_harr(int n) {
+ImageBase ImageBase::ondelette_haar(int n, int q = 1, bool reconstruction = true) {
     ImageBase lower(getWidth()/2, getHeight()/2, getColor()); // low frequencies
     ImageBase medium_v(getWidth()/2, getHeight()/2, getColor());; // medium frequencies verticale
     ImageBase medium_h(getWidth()/2, getHeight()/2, getColor());; // medium frequencies horizontale
@@ -380,20 +412,32 @@ ImageBase ImageBase::ondelette_harr(int n) {
         for (int j = 0; j < getHeight()-1; j += 2) {
             for (int i = 0; i < getWidth()-1; i += 2) {
                 lower[j/2][i/2] = ((*this)[j][i] + (*this)[j][i+1] + (*this)[j+1][i] + (*this)[j+1][i+1]) / 4;
-                medium_v[j/2][i/2] = (((*this)[j][i] + (*this)[j][i+1] - (*this)[j+1][i] - (*this)[j+1][i+1]) / 2 + 256) / 512.0 * 255;
-                medium_h[j/2][i/2] = (((*this)[j][i] - (*this)[j][i+1] + (*this)[j+1][i] - (*this)[j+1][i+1]) / 2 + 256) / 512.0 * 255;
-                higher[j/2][i/2] = ((*this)[j][i] - (*this)[j][i+1] - (*this)[j+1][i] + (*this)[j+1][i+1] + 512) / 1023.0 * 255;
+                medium_v[j/2][i/2] = (((*this)[j][i] + (*this)[j][i+1] - (*this)[j+1][i] - (*this)[j+1][i+1]) / 2 + 256) / 511.0 * 255 / (q / 2);
+                medium_h[j/2][i/2] = (((*this)[j][i] - (*this)[j][i+1] + (*this)[j+1][i] - (*this)[j+1][i+1]) / 2 + 256) / 511.0 * 255 / (q / 2);
+                higher[j/2][i/2] = ((*this)[j][i] - (*this)[j][i+1] - (*this)[j+1][i] + (*this)[j+1][i+1] + 512) / 1023.0 * 255 / q;
             }
         }
     }
     std::cout << "\nOndelette!";
-    if (n > 1) {
-        return fusion4(lower.ondelette_harr(n-1), medium_v, medium_h, higher);
-    } else {
-        return fusion4(lower, medium_v, medium_h, higher);
+    if (!reconstruction) { // ondelette de haar aller simple
+        if (n > 1) {
+            if (q == 1) {
+                return fusion4(lower.ondelette_haar(n-1, 1), medium_v, medium_h, higher);
+            } else {
+                return fusion4(lower.ondelette_haar(n-1, q / 2), medium_v, medium_h, higher);
+            }
+        } else {
+            return fusion4(lower, medium_v, medium_h, higher);
+        }
+    } else { // ondelette de haar aller retour
+        if (n > 1) {
+            if (q == 1) {
+                return reconstructionHaar4(lower.ondelette_haar(n-1, 1), medium_v, medium_h, higher);
+            } else {
+                return reconstructionHaar4(lower.ondelette_haar(n-1, q / 2), medium_v, medium_h, higher);
+            }
+        } else {
+            return reconstructionHaar4(lower, medium_v, medium_h, higher);
+        }
     }
 }
-
-/*ImageBase ImageBase::ondelette_harr_inverse(int n) {
-    
-}*/
