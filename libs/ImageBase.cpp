@@ -48,21 +48,21 @@ ImageBase fusion4(ImageBase i1, ImageBase i2, ImageBase i3, ImageBase i4) {
 /**
  * Fonction utilisée dans la transformée en ondelette de Haar avec reconstruction.
  * Assemble 4 images de taille égale tel que
- * i1 i2
- * i3 i4
+ * lf mf
+ * mf hf
  * =>
- * i5 i5
- * i5 i5
+ * LF LF
+ * LF LF (upsampled)
  */
-ImageBase reconstructionHaar4(ImageBase i1, ImageBase i2, ImageBase i3, ImageBase i4) {
-    ImageBase imOut(i1.getWidth()*2, i1.getHeight()*2, i1.getColor());
+ImageBase reconstructionHaar4(ImageBase lf, ImageBase mf_v, ImageBase mf_h, ImageBase hf, int q) {
+    ImageBase imOut(lf.getWidth()*2, lf.getHeight()*2, lf.getColor());
     std::cout << "\nReconstruction!";
-    for (int j = 0; j < i1.getHeight(); j++) {
-        for (int i = 0; i < i1.getWidth(); i++) {
-            imOut[j*2][i*2] = i1[j][i];
-            imOut[j*2][i*2+1] = i1[j][i] + i2[j][i] - 128;
-            imOut[j*2+1][i*2] = i1[j][i] + i3[j][i] - 128;
-            imOut[j*2][i*2+1] = i1[j][i] + i2[j][i] + i3[j][i] - 256;
+    for (int j = 0; j < lf.getHeight(); j++) {
+        for (int i = 0; i < lf.getWidth(); i++) {
+            imOut[j*2][i*2] = (lf[j][i] + mf_v[j][i]/2*q/2 + mf_h[j][i]/2*q/2 + hf[j][i]/4*q) / 573.5 * 255;
+            imOut[j*2+1][i*2] = (lf[j][i] + mf_v[j][i]/2*q/2 - mf_h[j][i]/2*q/2 - hf[j][i]/4*q + 191.25) / 573.25 * 255;
+            imOut[j*2][i*2+1] = (lf[j][i] - mf_v[j][i]/2*q/2 + mf_h[j][i]/2*q/2 - hf[j][i]/4*q + 191.25) / 573.25 * 255;
+            imOut[j*2+1][i*2+1] = (lf[j][i] - mf_v[j][i]/2*q/2 - mf_h[j][i]/2*q/2 + hf[j][i]/4*q + 255) / 573.0 * 255;
         }
     }
     return imOut;
@@ -403,7 +403,7 @@ unsigned char ImageBase::difference(int x, int y) {
  * Retourne une image correspondant à la transformée en ondelette de Harr.
  * Si q = 1, alors pas de quantification.
  */
-ImageBase ImageBase::ondelette_haar(int n, int q = 1, bool reconstruction = true) {
+ImageBase ImageBase::ondelette_haar(int n, int q = 2, bool reconstruction = true) {
     ImageBase lower(getWidth()/2, getHeight()/2, getColor()); // low frequencies
     ImageBase medium_v(getWidth()/2, getHeight()/2, getColor());; // medium frequencies verticale
     ImageBase medium_h(getWidth()/2, getHeight()/2, getColor());; // medium frequencies horizontale
@@ -421,23 +421,23 @@ ImageBase ImageBase::ondelette_haar(int n, int q = 1, bool reconstruction = true
     std::cout << "\nOndelette!";
     if (!reconstruction) { // ondelette de haar aller simple
         if (n > 1) {
-            if (q == 1) {
-                return fusion4(lower.ondelette_haar(n-1, 1), medium_v, medium_h, higher);
+            if (q == 2) {
+                return fusion4(lower.ondelette_haar(n-1, 2, reconstruction), medium_v, medium_h, higher);
             } else {
-                return fusion4(lower.ondelette_haar(n-1, q / 2), medium_v, medium_h, higher);
+                return fusion4(lower.ondelette_haar(n-1, q / 2, reconstruction), medium_v, medium_h, higher);
             }
         } else {
             return fusion4(lower, medium_v, medium_h, higher);
         }
     } else { // ondelette de haar aller retour
         if (n > 1) {
-            if (q == 1) {
-                return reconstructionHaar4(lower.ondelette_haar(n-1, 1), medium_v, medium_h, higher);
+            if (q == 2) {
+                return reconstructionHaar4(lower.ondelette_haar(n-1, 2), medium_v, medium_h, higher, q);
             } else {
-                return reconstructionHaar4(lower.ondelette_haar(n-1, q / 2), medium_v, medium_h, higher);
+                return reconstructionHaar4(lower.ondelette_haar(n-1, q / 2), medium_v, medium_h, higher, q);
             }
         } else {
-            return reconstructionHaar4(lower, medium_v, medium_h, higher);
+            return reconstructionHaar4(lower, medium_v, medium_h, higher, q);
         }
     }
 }

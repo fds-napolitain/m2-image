@@ -19,6 +19,8 @@ int main(int argc, char * argv[]) {
         exit(1);
     }
     
-    ImageBase imOut = imIn.ondelette_haar(3, 1, true);
-    imOut.save("tp4-i1.pgm");
+    ImageBase imOut = imIn.ondelette_haar(1, 2, false);
+    imOut.save("tp4-intermediaire.pgm");
+    imOut = imIn.ondelette_haar(1, 2, true);
+    imOut.save("tp4-compresse.pgm");
 }
