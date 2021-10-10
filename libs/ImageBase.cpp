@@ -15,6 +15,7 @@
 
 #include "ImageBase.hpp"
 #include "image_ppm.hpp"
+#include <algorithm>
 
 int clip(int n, int lower, int upper) {
     if (n < lower || n > upper) {
@@ -63,10 +64,10 @@ ImageBase reconstructionHaar4(ImageBase lf, ImageBase mf_v, ImageBase mf_h, Imag
             int v2 = (int)(mf_v[j][i]-128)*2*q;
             int v3 = (int)(mf_h[j][i]-128)*2*q;
             int v4 = (int)(hf[j][i]-128)*2*q;
-            imOut[j*2][i*2] = (char) (v1 + v2 + v3 + v4);
-            imOut[j*2+1][i*2] = (char) (v1 + v2 - v3 - v4);
-            imOut[j*2][i*2+1] = (char) (v1 - v2 + v3 - v4);
-            imOut[j*2+1][i*2+1] = (char) (v1 - v2 - v3 + v4);
+            imOut[j*2][i*2] = (char) std::clamp((v1 + v2 + v3 + v4), 0, 255);
+            imOut[j*2+1][i*2] = (char) std::clamp((v1 + v2 - v3 - v4), 0, 255);
+            imOut[j*2][i*2+1] = (char) std::clamp((v1 - v2 + v3 - v4), 0, 255);
+            imOut[j*2+1][i*2+1] = (char) std::clamp((v1 - v2 - v3 + v4), 0, 255);
         }
     }
     return imOut;
@@ -415,10 +416,10 @@ ImageBase ImageBase::ondelette_haar(int n, int q = 2, bool reconstruction = true
     if (!color) {
         for (int j = 0; j < getHeight()-1; j += 2) {
             for (int i = 0; i < getWidth()-1; i += 2) {
-                lower[j/2][i/2] = ((*this)[j][i] + (*this)[j][i+1] + (*this)[j+1][i] + (*this)[j+1][i+1]) / 4;
-                medium_v[j/2][i/2] = ((*this)[j][i] + (*this)[j][i+1] - (*this)[j+1][i] - (*this)[j+1][i+1]) / 2 / (q * 2) + 128;
-                medium_h[j/2][i/2] = ((*this)[j][i] - (*this)[j][i+1] + (*this)[j+1][i] - (*this)[j+1][i+1]) / 2 / (q * 2) + 128;
-                higher[j/2][i/2] = ((*this)[j][i] - (*this)[j][i+1] - (*this)[j+1][i] + (*this)[j+1][i+1]) / (q * 2) + 128;
+                lower[j/2][i/2] = std::clamp(((*this)[j][i] + (*this)[j][i+1] + (*this)[j+1][i] + (*this)[j+1][i+1]) / 4, 0, 255);
+                medium_v[j/2][i/2] = std::clamp(((*this)[j][i] + (*this)[j][i+1] - (*this)[j+1][i] - (*this)[j+1][i+1]) / 2 / (q * 2) + 128, 0, 255);
+                medium_h[j/2][i/2] = std::clamp(((*this)[j][i] - (*this)[j][i+1] + (*this)[j+1][i] - (*this)[j+1][i+1]) / 2 / (q * 2) + 128, 0, 255);
+                higher[j/2][i/2] = std::clamp(((*this)[j][i] - (*this)[j][i+1] - (*this)[j+1][i] + (*this)[j+1][i+1]) / (q * 2) + 128, 0, 255);
             }
         }
     }
