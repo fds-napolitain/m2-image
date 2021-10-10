@@ -20,7 +20,20 @@ int main(int argc, char * argv[]) {
     }
     
     ImageBase imOut = imIn.ondelette_haar(1, 2, false);
-    imOut.save("tp4-intermediaire.pgm");
+    imOut.save("tp4-i1-intermediaire.pgm");
     imOut = imIn.ondelette_haar(1, 2, true);
-    imOut.save("tp4-compresse.pgm");
+    imOut.save("tp4-i1-compresse.pgm");
+    std::cout << "\n" << imIn.PSNR(imOut) << "\n";
+    
+    imOut = imIn.ondelette_haar(8, 16, false);
+    imOut.save("tp4-i2-intermediaire.pgm");
+    imOut = imIn.ondelette_haar(8, 16, true);
+    imOut.save("tp4-i2-compresse.pgm");
+    std::cout << "\n" << imIn.PSNR(imOut) << "\n";
+    
+    imOut = imIn.ondelette_haar(3, 8, false);
+    imOut.save("tp4-i3-intermediaire.pgm");
+    imOut = imIn.ondelette_haar(3, 8, true);
+    imOut.save("tp4-i3-compresse.pgm");
+    std::cout << "\n" << imIn.PSNR(imOut) << "\n";
 }
