@@ -25,10 +25,14 @@ int main(int argc, char * argv[]) {
     dechiffre.save("tp5-i1-dechiffre-55.pgm");
     
     ImageBase derived_key2 = imIn.derive_key(18);
-    ImageBase chiffre2 = imIn.get_xor(derived_key);
+    ImageBase chiffre2 = imIn.get_xor(derived_key2);
     chiffre2.save("tp5-i1-chiffre-18.pgm");
     dechiffre = chiffre2.get_xor(derived_key);
     dechiffre.save("tp5-i1-dechiffre-18.pgm");
     
+    // image différente (1.4)
     std::cout << "\n" << chiffre1.PSNR(chiffre2) << "\n";
+    
+    // 2.1
+    std::cout << imIn.PSNR(chiffre1) << "\n";
 }
