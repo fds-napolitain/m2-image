@@ -35,4 +35,7 @@ int main(int argc, char * argv[]) {
     
     // 2.1
     std::cout << imIn.PSNR(chiffre1) << "\n";
+    
+    // 2.2
+    std::cout << chiffre1.get_entropy(chiffre1.histogram());
 }

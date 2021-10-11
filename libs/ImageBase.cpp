@@ -291,7 +291,7 @@ ImageBase ImageBase::ycrcb_to_rgb() {
  Créé un histogramme histogram.csv à coté du binaire sous le format
  couleurs;rouge;vert;bleu
  */
-void ImageBase::histogram() {
+Histogram ImageBase::histogram() {
     std::ofstream outfile("histogram.csv");
     Histogram histogram;
     int depth = 256;
@@ -328,6 +328,7 @@ void ImageBase::histogram() {
     }
     outfile.close();
     std::cout << "\nHistogramme écrit.\n";
+    return histogram;
 }
 
 /**
@@ -404,4 +405,13 @@ ImageBase ImageBase::get_xor(ImageBase key) {
         }
     }
     return imOut;
+}
+
+float ImageBase::get_entropy(Histogram histogram) {
+    float somme = 0;
+    for (int i = 0; i < 256; i++) {
+        float pi = histogram.data[i][0] / (float) getTotalSize();
+        somme -= pi*(log(pi)/log(2));
+    }
+    return somme;
 }

@@ -25,6 +25,13 @@
 #define BLEU 2
 
 
+/**
+ Structure d'un histogramme utilisé par ImageBase::histogram()
+ */
+struct Histogram {
+    int data[256][3];
+};
+
 class ImageBase
 {
 	///////////// Enumerations
@@ -81,10 +88,11 @@ public:
     unsigned char average_color(int x, int y, std::vector<std::vector<int>> neighbors);
     ImageBase rgb_to_ycrcb();
     ImageBase ycrcb_to_rgb();
-    void histogram();
+    Histogram histogram();
     unsigned char difference(int x, int y);
     ImageBase ondelette_haar(int n, int q, bool reconstruction);
     void operator+(const ImageBase& img);
     ImageBase derive_key(unsigned int key); // derive la clé de chiffrement initial
     ImageBase get_xor(ImageBase key); // transforme l'image grace à une clé aussi longue que l'image (dérivée)
+    float get_entropy(Histogram histogram);
 };
