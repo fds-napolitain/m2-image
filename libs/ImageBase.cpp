@@ -411,12 +411,13 @@ float ImageBase::get_entropy(Histogram histogram) {
     float somme = 0;
     for (int i = 0; i < 256; i++) {
         float pi = histogram.data[i][0] / (float) getTotalSize();
-        somme -= pi*(log(pi)/log(2));
+        if (pi != 0)
+            somme -= pi*(log(pi)/log(2));
     }
     return somme;
 }
 
-ImageBase ImageBase::get_bit_plane(int k) {
+char get_bit(int k) {
     char plan;
     switch (k) { // renvoit la valeur
         case 8:
@@ -446,6 +447,17 @@ ImageBase ImageBase::get_bit_plane(int k) {
         default:
             break;
     }
+    return plan;
+}
+
+/* Exemple de fonctionnement du plan binaire
+ *   011000000 11000000
+ * & 001000000 00100000
+ * = 001000000 00000000
+ * Chaque pixel est ensuite enregistré dans l'image bit_plane
+ */
+ImageBase ImageBase::get_bit_plane(int k) {
+    char plan = get_bit(k);
     ImageBase bit_plane(getWidth(), getHeight(), getColor());
     for (int y = 0; y < getHeight(); y++) {
         for (int x = 0; x < getWidth(); x++) {
@@ -453,4 +465,16 @@ ImageBase ImageBase::get_bit_plane(int k) {
         }
     }
     return bit_plane;
+}
+
+ImageBase ImageBase::insert_message(ImageBase img) {
+    int number_bits = img.getTotalSize() / (*this).getTotalSize() * 8;
+    char plan = get_bit(number_bits);
+    ImageBase imOut(getWidth(), getHeight(), getColor());
+    for (int y = 0; y < getHeight(); y++) {
+        for (int x = 0; x < getWidth(); x++) {
+            imOut[y][x] = (plan >> (char) ((*this)[y][x] & plan)) << img[y][x];
+        }
+    }
+    return imOut;
 }

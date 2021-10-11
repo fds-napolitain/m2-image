@@ -45,8 +45,8 @@ int main(int argc, char * argv[]) {
     //imIn.histogram();
     
     // 2.4
-    ImageBase plan1 = imIn.get_bit_plane(1);
+    ImageBase plan1 = chiffre1.get_bit_plane(1);
     plan1.save("tp5-bit-plane-1.pgm");
-    ImageBase plan4 = imIn.get_bit_plane(4);
-    plan4.save("tp5-bit-plane-4.pgm");
+    ImageBase plan8 = chiffre1.get_bit_plane(8);
+    plan8.save("tp5-bit-plane-8.pgm");
 }
