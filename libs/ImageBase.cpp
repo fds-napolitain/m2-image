@@ -417,7 +417,7 @@ float ImageBase::get_entropy(Histogram histogram) {
     return somme;
 }
 
-unsigned char get_bit(int k) {
+unsigned char get_bit_mask(int k) {
     return (unsigned char) pow(2, k);
 }
 
@@ -428,11 +428,12 @@ unsigned char get_bit(int k) {
  * Chaque pixel est ensuite enregistré dans l'image bit_plane
  */
 ImageBase ImageBase::get_bit_plane(int k, bool binary = false) {
-    unsigned char plan = get_bit(k);
+    unsigned char mask = get_bit_mask(k);
     ImageBase bit_plane(getWidth(), getHeight(), getColor());
     for (int y = 0; y < getHeight(); y++) {
         for (int x = 0; x < getWidth(); x++) {
-            bit_plane[y][x] = ((*this)[y][x] & plan) >= plan ? 255 : 0;
+            if (binary) bit_plane[y][x] = ((*this)[y][x] & mask) >= mask ? 255 : 0;
+            else bit_plane[y][x] = (*this)[y][x] & mask;
         }
     }
     return bit_plane;
@@ -449,11 +450,11 @@ ImageBase ImageBase::get_bit_plane(int k, bool binary = false) {
  */
 ImageBase ImageBase::insert_message(ImageBase img) {
     int number_bits = img.getTotalSize() / (*this).getTotalSize() * 8;
-    unsigned char plan = get_bit(number_bits);
+    unsigned char plan = get_bit_mask(number_bits);
     ImageBase imOut(getWidth(), getHeight(), getColor());
     for (int y = 0; y < getHeight(); y++) {
         for (int x = 0; x < getWidth(); x++) {
-            imOut[y][x] = (plan >> (char) ((*this)[y][x] & plan)) << img[y][x];
+            // TODO
         }
     }
     return imOut;
