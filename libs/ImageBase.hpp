@@ -85,4 +85,6 @@ public:
     unsigned char difference(int x, int y);
     ImageBase ondelette_haar(int n, int q, bool reconstruction);
     void operator+(const ImageBase& img);
+    ImageBase derive_key(unsigned int key); // derive la clé de chiffrement initial
+    ImageBase get_xor(ImageBase key); // transforme l'image grace à une clé aussi longue que l'image (dérivée)
 };

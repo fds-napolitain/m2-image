@@ -19,6 +19,6 @@ struct Histogram {
 };
 
 ImageBase fusion4(ImageBase i1, ImageBase i2, ImageBase i3, ImageBase i4);
-ImageBase reconstructionHaar4(ImageBase lf, ImageBase mf_v, ImageBase mf_h, ImageBase hf, int q);
+ImageBase reconstruction_haar_4(ImageBase lf, ImageBase mf_v, ImageBase mf_h, ImageBase hf, int q);
 
 #endif /* ImageLibs_hpp */

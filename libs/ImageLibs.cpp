@@ -38,7 +38,7 @@ ImageBase fusion4(ImageBase i1, ImageBase i2, ImageBase i3, ImageBase i4) {
  * LF LF
  * LF LF (upsampled)
  */
-ImageBase reconstructionHaar4(ImageBase lf, ImageBase mf_v, ImageBase mf_h, ImageBase hf, int q) {
+ImageBase reconstruction_haar_4(ImageBase lf, ImageBase mf_v, ImageBase mf_h, ImageBase hf, int q) {
     ImageBase imOut(lf.getWidth()*2, lf.getHeight()*2, lf.getColor());
     std::cout << "\nReconstruction!";
     for (int j = 0; j < lf.getHeight(); j++) {

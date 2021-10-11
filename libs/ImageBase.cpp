@@ -375,12 +375,33 @@ ImageBase ImageBase::ondelette_haar(int n, int q = 2, bool reconstruction = true
     } else { // ondelette de haar aller retour
         if (n > 1) {
             if (q == 2) {
-                return reconstructionHaar4(lower.ondelette_haar(n-1, 2), medium_v, medium_h, higher, q);
+                return reconstruction_haar_4(lower.ondelette_haar(n-1, 2), medium_v, medium_h, higher, q);
             } else {
-                return reconstructionHaar4(lower.ondelette_haar(n-1, q), medium_v, medium_h, higher, q);
+                return reconstruction_haar_4(lower.ondelette_haar(n-1, q), medium_v, medium_h, higher, q);
             }
         } else {
-            return reconstructionHaar4(lower, medium_v, medium_h, higher, q);
+            return reconstruction_haar_4(lower, medium_v, medium_h, higher, q);
         }
     }
+}
+
+ImageBase ImageBase::derive_key(unsigned int key) {
+    ImageBase derived_key(getWidth(), getHeight(), getColor());
+    srand(key);
+    for (int y = 0; y < getHeight(); y++) {
+        for (int x = 0; x < getWidth(); x++) {
+            derived_key[y][x] = (char) rand() % 256;
+        }
+    }
+    return derived_key;
+}
+
+ImageBase ImageBase::get_xor(ImageBase key) {
+    ImageBase imOut(getWidth(), getHeight(), getColor());
+    for (int y = 0; y < getHeight(); y++) {
+        for (int x = 0; x < getWidth(); x++) {
+            imOut[y][x] = (*this)[y][x] ^ key[y][x];
+        }
+    }
+    return imOut;
 }
