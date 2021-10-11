@@ -19,8 +19,16 @@ int main(int argc, char * argv[]) {
     }
     
     ImageBase derived_key = imIn.derive_key(55);
-    ImageBase imOut = imIn.get_xor(derived_key);
-    imOut.save("tp5-i1-chiffre.pgm");
-    imOut = imOut.get_xor(derived_key);
-    imOut.save("tp5-i1-dechiffre.pgm");
+    ImageBase chiffre1 = imIn.get_xor(derived_key);
+    chiffre1.save("tp5-i1-chiffre-55.pgm");
+    ImageBase dechiffre = chiffre1.get_xor(derived_key);
+    dechiffre.save("tp5-i1-dechiffre-55.pgm");
+    
+    ImageBase derived_key2 = imIn.derive_key(18);
+    ImageBase chiffre2 = imIn.get_xor(derived_key);
+    chiffre2.save("tp5-i1-chiffre-18.pgm");
+    dechiffre = chiffre2.get_xor(derived_key);
+    dechiffre.save("tp5-i1-dechiffre-18.pgm");
+    
+    std::cout << "\n" << chiffre1.PSNR(chiffre2) << "\n";
 }
