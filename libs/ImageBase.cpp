@@ -417,37 +417,37 @@ float ImageBase::get_entropy(Histogram histogram) {
     return somme;
 }
 
-char get_bit(int k) {
-    char plan;
+unsigned char get_bit(int k) {
+    int plan;
     switch (k) { // renvoit la valeur
         case 8:
-            plan = 0x1;
+            plan = 1;
             break;
         case 7:
-            plan = 0x2;
+            plan = 2;
             break;
         case 6:
-            plan = 0x4;
+            plan = 4;
             break;
         case 5:
-            plan = 0x8;
+            plan = 8;
             break;
         case 4:
-            plan = 0x10;
+            plan = 16;
             break;
         case 3:
-            plan = 0x20;
+            plan = 32;
             break;
         case 2:
-            plan = 0x40;
+            plan = 64;
             break;
         case 1:
-            plan = 0x80;
+            plan = 128;
             break;
         default:
             break;
     }
-    return plan;
+    return (unsigned char) plan;
 }
 
 /* Exemple de fonctionnement du plan binaire
@@ -456,12 +456,12 @@ char get_bit(int k) {
  * = 001000000 00000000
  * Chaque pixel est ensuite enregistré dans l'image bit_plane
  */
-ImageBase ImageBase::get_bit_plane(int k) {
-    char plan = get_bit(k);
+ImageBase ImageBase::get_bit_plane(int k, bool binary = false) {
+    unsigned char plan = get_bit(k);
     ImageBase bit_plane(getWidth(), getHeight(), getColor());
     for (int y = 0; y < getHeight(); y++) {
         for (int x = 0; x < getWidth(); x++) {
-            bit_plane[y][x] = (char) ((*this)[y][x] & plan);
+            bit_plane[y][x] = ((*this)[y][x] & plan) >= plan ? 255 : 0;
         }
     }
     return bit_plane;
@@ -469,7 +469,7 @@ ImageBase ImageBase::get_bit_plane(int k) {
 
 ImageBase ImageBase::insert_message(ImageBase img) {
     int number_bits = img.getTotalSize() / (*this).getTotalSize() * 8;
-    char plan = get_bit(number_bits);
+    unsigned char plan = get_bit(number_bits);
     ImageBase imOut(getWidth(), getHeight(), getColor());
     for (int y = 0; y < getHeight(); y++) {
         for (int x = 0; x < getWidth(); x++) {
