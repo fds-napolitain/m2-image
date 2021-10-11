@@ -418,36 +418,7 @@ float ImageBase::get_entropy(Histogram histogram) {
 }
 
 unsigned char get_bit(int k) {
-    int plan;
-    switch (k) { // renvoit la valeur
-        case 8:
-            plan = 1;
-            break;
-        case 7:
-            plan = 2;
-            break;
-        case 6:
-            plan = 4;
-            break;
-        case 5:
-            plan = 8;
-            break;
-        case 4:
-            plan = 16;
-            break;
-        case 3:
-            plan = 32;
-            break;
-        case 2:
-            plan = 64;
-            break;
-        case 1:
-            plan = 128;
-            break;
-        default:
-            break;
-    }
-    return (unsigned char) plan;
+    return (unsigned char) pow(2, k);
 }
 
 /* Exemple de fonctionnement du plan binaire
@@ -467,6 +438,15 @@ ImageBase ImageBase::get_bit_plane(int k, bool binary = false) {
     return bit_plane;
 }
 
+/* Exemple de fonctionnement d'insertion de message secret dans une image
+ * 110110|11 101010|01
+ * 10|10
+ * 11 -> 10 et 01 -> 10
+ * 110110|10
+ * 101010|10
+ * Le LSB étant le moins important, nous pouvons utiliser ce dernier sera utilisé comme emplacement pour
+ * enregistrer notre message secret.
+ */
 ImageBase ImageBase::insert_message(ImageBase img) {
     int number_bits = img.getTotalSize() / (*this).getTotalSize() * 8;
     unsigned char plan = get_bit(number_bits);
