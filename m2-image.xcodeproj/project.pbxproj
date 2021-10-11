@@ -10,6 +10,10 @@
 		FB0CB1892700D1E2001E598C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0CB1882700D1E2001E598C /* main.cpp */; };
 		FB0CB18F2700D6A1001E598C /* ImageBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */; };
 		FB60C70526EF90A500EDF8EF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB60C70326EF90A500EDF8EF /* main.cpp */; };
+		FB78518C27141A7C009FF1E3 /* ImageLibs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB78518A27141A7C009FF1E3 /* ImageLibs.cpp */; };
+		FB78518D27141A7C009FF1E3 /* ImageLibs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB78518A27141A7C009FF1E3 /* ImageLibs.cpp */; };
+		FB78518E27141A7C009FF1E3 /* ImageLibs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB78518A27141A7C009FF1E3 /* ImageLibs.cpp */; };
+		FB78518F27141A7C009FF1E3 /* ImageLibs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB78518A27141A7C009FF1E3 /* ImageLibs.cpp */; };
 		FBAB88F4270AECD500544C3C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBAB88F3270AECD500544C3C /* main.cpp */; };
 		FBAB88F8270AECE400544C3C /* ImageBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */; };
 		FBDBBDCD26F61A3100A9D44D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBDBBDCC26F61A3100A9D44D /* main.cpp */; };
@@ -63,6 +67,8 @@
 		FB60C6F426EF8FEA00EDF8EF /* tp1-palette */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "tp1-palette"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB60C6FF26EF907B00EDF8EF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = "tp1-palette/main.cpp"; sourceTree = "<group>"; };
 		FB60C70326EF90A500EDF8EF /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		FB78518A27141A7C009FF1E3 /* ImageLibs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImageLibs.cpp; sourceTree = "<group>"; };
+		FB78518B27141A7C009FF1E3 /* ImageLibs.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ImageLibs.hpp; sourceTree = "<group>"; };
 		FBAB88F1270AECD500544C3C /* tp4-ondelette */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "tp4-ondelette"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBAB88F3270AECD500544C3C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageBase.cpp; sourceTree = "<group>"; };
@@ -167,6 +173,8 @@
 				FBDBBDC226F60EB000A9D44D /* ImageBase.cpp */,
 				FBDBBDC326F60EB000A9D44D /* image_ppm.hpp */,
 				FBDBBDC426F60EB000A9D44D /* ImageBase.hpp */,
+				FB78518A27141A7C009FF1E3 /* ImageLibs.cpp */,
+				FB78518B27141A7C009FF1E3 /* ImageLibs.hpp */,
 			);
 			path = libs;
 			sourceTree = "<group>";
@@ -299,6 +307,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB0CB18F2700D6A1001E598C /* ImageBase.cpp in Sources */,
+				FB78518E27141A7C009FF1E3 /* ImageLibs.cpp in Sources */,
 				FB0CB1892700D1E2001E598C /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -308,6 +317,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBECD58826F7D60700BFE09C /* ImageBase.cpp in Sources */,
+				FB78518C27141A7C009FF1E3 /* ImageLibs.cpp in Sources */,
 				FB60C70526EF90A500EDF8EF /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -317,6 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBAB88F8270AECE400544C3C /* ImageBase.cpp in Sources */,
+				FB78518F27141A7C009FF1E3 /* ImageLibs.cpp in Sources */,
 				FBAB88F4270AECD500544C3C /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -326,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBECD58726F79C9400BFE09C /* ImageBase.cpp in Sources */,
+				FB78518D27141A7C009FF1E3 /* ImageLibs.cpp in Sources */,
 				FBDBBDCD26F61A3100A9D44D /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
