@@ -415,3 +415,42 @@ float ImageBase::get_entropy(Histogram histogram) {
     }
     return somme;
 }
+
+ImageBase ImageBase::get_bit_plane(int k) {
+    char plan;
+    switch (k) { // renvoit la valeur
+        case 8:
+            plan = 0x1;
+            break;
+        case 7:
+            plan = 0x2;
+            break;
+        case 6:
+            plan = 0x4;
+            break;
+        case 5:
+            plan = 0x8;
+            break;
+        case 4:
+            plan = 0x10;
+            break;
+        case 3:
+            plan = 0x20;
+            break;
+        case 2:
+            plan = 0x40;
+            break;
+        case 1:
+            plan = 0x80;
+            break;
+        default:
+            break;
+    }
+    ImageBase bit_plane(getWidth(), getHeight(), getColor());
+    for (int y = 0; y < getHeight(); y++) {
+        for (int x = 0; x < getWidth(); x++) {
+            bit_plane[y][x] = (char) ((*this)[y][x] & plan);
+        }
+    }
+    return bit_plane;
+}

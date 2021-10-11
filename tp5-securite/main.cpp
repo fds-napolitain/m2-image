@@ -18,17 +18,18 @@ int main(int argc, char * argv[]) {
         exit(1);
     }
     
+    // questions 1...
     ImageBase derived_key = imIn.derive_key(55);
     ImageBase chiffre1 = imIn.get_xor(derived_key);
-    chiffre1.save("tp5-i1-chiffre-55.pgm");
+    chiffre1.save("tp5-chiffre-55.pgm");
     ImageBase dechiffre = chiffre1.get_xor(derived_key);
-    dechiffre.save("tp5-i1-dechiffre-55.pgm");
+    dechiffre.save("tp5-dechiffre-55.pgm");
     
     ImageBase derived_key2 = imIn.derive_key(18);
     ImageBase chiffre2 = imIn.get_xor(derived_key2);
-    chiffre2.save("tp5-i1-chiffre-18.pgm");
+    chiffre2.save("tp5-chiffre-18.pgm");
     dechiffre = chiffre2.get_xor(derived_key);
-    dechiffre.save("tp5-i1-dechiffre-18.pgm");
+    dechiffre.save("tp5-dechiffre-18.pgm");
     
     // image différente (1.4)
     std::cout << "\n" << chiffre1.PSNR(chiffre2) << "\n";
@@ -37,5 +38,15 @@ int main(int argc, char * argv[]) {
     std::cout << imIn.PSNR(chiffre1) << "\n";
     
     // 2.2
+    std::cout << imIn.get_entropy(imIn.histogram());
     std::cout << chiffre1.get_entropy(chiffre1.histogram());
+    
+    // 2.3 a mettre en commentaire si jamais
+    //imIn.histogram();
+    
+    // 2.4
+    ImageBase plan1 = imIn.get_bit_plane(1);
+    plan1.save("tp5-bit-plane-1.pgm");
+    ImageBase plan4 = imIn.get_bit_plane(4);
+    plan4.save("tp5-bit-plane-4.pgm");
 }

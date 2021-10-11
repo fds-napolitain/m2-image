@@ -95,4 +95,5 @@ public:
     ImageBase derive_key(unsigned int key); // derive la clé de chiffrement initial
     ImageBase get_xor(ImageBase key); // transforme l'image grace à une clé aussi longue que l'image (dérivée)
     float get_entropy(Histogram histogram);
+    ImageBase get_bit_plane(int k);
 };
