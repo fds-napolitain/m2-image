@@ -417,8 +417,19 @@ float ImageBase::get_entropy(Histogram histogram) {
     return somme;
 }
 
+/**
+ * Renvoit un masque pour plan binaire (avec un seul bit à 1)
+ */
 unsigned char get_bit_mask(int k) {
-    return (unsigned char) pow(2, k);
+    return (unsigned char) pow(2, k-1);
+}
+
+/**
+ * Renvoit un masque avec début de 1 à k et n fois.
+ */
+unsigned char get_bit_mask(int k, int n) {
+    if (n == 1) return (unsigned char) pow(2, k-1);
+    else return (unsigned char) pow(2, k-1) & get_bit_mask(k-1, n-1);
 }
 
 /* Exemple de fonctionnement du plan binaire
@@ -426,6 +437,7 @@ unsigned char get_bit_mask(int k) {
  * & 001000000 00100000
  * = 001000000 00000000
  * Chaque pixel est ensuite enregistré dans l'image bit_plane
+ * L'option binary permet d'afficher en noir et blanc plutôt que les valeurs en niveaux de gris correspondant au plan binaire (rapidement trop foncé).
  */
 ImageBase ImageBase::get_bit_plane(int k, bool binary = false) {
     unsigned char mask = get_bit_mask(k);
@@ -449,12 +461,15 @@ ImageBase ImageBase::get_bit_plane(int k, bool binary = false) {
  * enregistrer notre message secret.
  */
 ImageBase ImageBase::insert_message(ImageBase img) {
+    ImageBase imOut(getWidth(), getHeight(), getColor());
     int number_bits = img.getTotalSize() / (*this).getTotalSize() * 8;
     unsigned char plan = get_bit_mask(number_bits);
-    ImageBase imOut(getWidth(), getHeight(), getColor());
+    int i = 1;
     for (int y = 0; y < getHeight(); y++) {
         for (int x = 0; x < getWidth(); x++) {
-            // TODO
+            imOut[y][x] = ((*this)[y][x] & ~get_bit_mask(7, 2)) | (img[y][x] & get_bit_mask(i, 2));
+            if (i >= 7) i = 1;
+            else i += 2;
         }
     }
     return imOut;

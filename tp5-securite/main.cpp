@@ -45,8 +45,12 @@ int main(int argc, char * argv[]) {
     //imIn.histogram();
     
     // 2.4
-    ImageBase plan1 = chiffre1.get_bit_plane(1);
+    ImageBase plan1 = chiffre1.get_bit_plane(1, false);
     plan1.save("tp5-bit-plane-1.pgm");
-    ImageBase plan8 = chiffre1.get_bit_plane(8);
+    ImageBase plan8 = chiffre1.get_bit_plane(8, false);
     plan8.save("tp5-bit-plane-8.pgm");
+    
+    // 3.1
+    ImageBase aInserer = ImageBase(getW)
+    ImageBase insertion = imIn.insert_message(<#ImageBase img#>)
 }
