@@ -130,6 +130,7 @@ bool ImageBase::save(char *filename)
 	else
 		ecrire_image_pgm(filename, data,  height, width);
 
+    std::cout << "Image enregistrée.\n";
 	return true;
 }
 
@@ -327,7 +328,7 @@ Histogram ImageBase::histogram() {
         }
     }
     outfile.close();
-    std::cout << "\nHistogramme écrit.\n";
+    std::cout << "Histogramme écrit.\n";
     return histogram;
 }
 
@@ -394,6 +395,7 @@ ImageBase ImageBase::derive_key(unsigned int key) {
             derived_key[y][x] = (char) rand() % 256;
         }
     }
+    std::cout << "Clé dérivée.\n";
     return derived_key;
 }
 
@@ -404,6 +406,7 @@ ImageBase ImageBase::get_xor(ImageBase key) {
             imOut[y][x] = (*this)[y][x] ^ key[y][x];
         }
     }
+    std::cout << "Image chiffrée avec XOR\n";
     return imOut;
 }
 
@@ -419,17 +422,19 @@ float ImageBase::get_entropy(Histogram histogram) {
 
 /**
  * Renvoit un masque pour plan binaire (avec un seul bit à 1)
+ * k = 1 => LSB
  */
 unsigned char get_bit_mask(int k) {
-    return (unsigned char) pow(2, k-1);
+    return (unsigned char) pow(2, k);
 }
 
 /**
- * Renvoit un masque avec début de 1 à k et n fois.
+ * Renvoit un masque avec début de 0 à k et n fois.
+ * k = 1 => LSB
  */
 unsigned char get_bit_mask(int k, int n) {
-    if (n == 1) return (unsigned char) pow(2, k-1);
-    else return (unsigned char) pow(2, k-1) & get_bit_mask(k-1, n-1);
+    if (n == 1) return (unsigned char) pow(2, k);
+    else return (unsigned char) pow(2, k) | get_bit_mask(k-1, n-1);
 }
 
 /* Exemple de fonctionnement du plan binaire
@@ -462,19 +467,24 @@ ImageBase ImageBase::get_bit_plane(int k, bool binary = false) {
  */
 ImageBase ImageBase::insert_message(ImageBase img) {
     ImageBase imOut(getWidth(), getHeight(), getColor());
-    int number_bits = img.getTotalSize() / (*this).getTotalSize() * 8;
-    unsigned char plan = get_bit_mask(number_bits);
-    int i = 1;
+    int number_bits = img.getTotalSize() / (float) getTotalSize() * 8;
+    std::vector<unsigned char> mask2;
+    int mask2_size = 8 / number_bits;
+    for (int i = 0; i < 8 / number_bits; i++) {
+        mask2.push_back(get_bit_mask(i, number_bits));
+    }
+    int i = 0;
+    unsigned char mask1 = ~get_bit_mask(8-number_bits, number_bits);
     for (int y = 0; y < getHeight(); y++) {
         for (int x = 0; x < getWidth(); x++) {
-            if (x < img.getWidth() && y < img.getHeight()) {
-                imOut[y][x] = ((*this)[y][x] & ~get_bit_mask(7, 2)) | (img[y][x] & get_bit_mask(i, 2)); // insert image in LSB
+            if (x < img.getWidth()*number_bits && y < img.getHeight()*number_bits) {
+                imOut[y][x] = (unsigned char) ((*this)[y][x] & mask1) | (img[y/number_bits][x/number_bits] & mask2[i]); // insert image in LSB
             } else {
                 imOut[y][x] = (*this)[y][x]; // copy rest of image
             }
-            if (i >= 7) i = 1;
-            else i += 2;
+            i = (i+1) % mask2_size;
         }
     }
+    std::cout << "Image secrète insérée dans une image visible.\n";
     return imOut;
 }

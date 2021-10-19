@@ -17,6 +17,7 @@ int main(int argc, char * argv[]) {
         std::cout << "Argument 1: chemin d'image\n";
         exit(1);
     }
+    std::cout << "\n";
     
     // questions 1...
     ImageBase derived_key = imIn.derive_key(55);
@@ -45,13 +46,13 @@ int main(int argc, char * argv[]) {
     //imIn.histogram();
     
     // 2.4
-    ImageBase plan1 = chiffre1.get_bit_plane(1, false);
+    ImageBase plan1 = imIn.get_bit_plane(0, false);
     plan1.save("tp5-bit-plane-1.pgm");
-    ImageBase plan8 = chiffre1.get_bit_plane(8, false);
+    ImageBase plan8 = imIn.get_bit_plane(7, false);
     plan8.save("tp5-bit-plane-8.pgm");
     
     // 3.1
-    ImageBase aInserer = ImageBase(imIn.getWidth()/2, imIn.getHeight()/2, imIn.getColor());
+    ImageBase aInserer = ImageBase(imIn.getWidth()/8, imIn.getHeight(), imIn.getColor()); // "aleatoire" car non initialisé
     ImageBase insertion = imIn.insert_message(aInserer);
     insertion.save("tp5-image-insere.pgm");
 }
