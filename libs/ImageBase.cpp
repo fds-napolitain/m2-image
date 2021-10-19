@@ -481,8 +481,7 @@ ImageBase ImageBase::insert_message(ImageBase img) {
     for (int y = 0; y < getHeight(); y++) {
         for (int x = 0; x < getWidth(); x++) {
             if (img_i < img.getTotalSize()) {
-                std::cout << (int)(img[y/height_factor][x/width_factor]) << " " << (int)(mask2[index_mask]) << "\n";
-                imOut[y][x] = (unsigned char) ((*this)[y][x] & mask1) | (img[y/height_factor][x/width_factor] & mask2[index_mask]); // insert image in LSB
+                imOut[y][x] = (unsigned char) ((*this)[y][x] & mask1) | (index_mask*number_bits >> (img[y/height_factor][x/width_factor] & mask2[index_mask])); // insert image in LSB
             } else {
                 imOut[y][x] = (*this)[y][x]; // copy rest of image
             }
