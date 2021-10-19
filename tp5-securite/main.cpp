@@ -9,12 +9,13 @@
 #include "ImageBase.hpp"
 
 int main(int argc, char * argv[]) {
-    ImageBase imIn;
-    if (argc > 1) {
+    ImageBase imIn, aInserer;
+    if (argc > 2) {
         std::cout << argv[0];
         imIn.load(argv[1]);
+        aInserer.load(argv[2]);
     } else {
-        std::cout << "Argument 1: chemin d'image\n";
+        std::cout << "Argument 1: chemin d'image\nArgument 2: chemin d'image à insérer";
         exit(1);
     }
     std::cout << "\n";
@@ -52,7 +53,6 @@ int main(int argc, char * argv[]) {
     plan8.save("tp5-bit-plane-8.pgm");
     
     // 3.1
-    ImageBase aInserer = ImageBase(imIn.getWidth()/8, imIn.getHeight(), imIn.getColor()); // "aleatoire" car non initialisé
     ImageBase insertion = imIn.insert_message(aInserer);
     insertion.save("tp5-image-insere.pgm");
 }

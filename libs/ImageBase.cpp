@@ -468,21 +468,26 @@ ImageBase ImageBase::get_bit_plane(int k, bool binary = false) {
 ImageBase ImageBase::insert_message(ImageBase img) {
     ImageBase imOut(getWidth(), getHeight(), getColor());
     int number_bits = img.getTotalSize() / (float) getTotalSize() * 8;
+    int width_factor = getWidth() / img.getWidth();
+    int height_factor = getHeight() / img.getHeight();
+    unsigned char mask1 = ~get_bit_mask(8-number_bits, number_bits);
     std::vector<unsigned char> mask2;
     int mask2_size = 8 / number_bits;
     for (int i = 0; i < 8 / number_bits; i++) {
         mask2.push_back(get_bit_mask(i, number_bits));
     }
-    int i = 0;
-    unsigned char mask1 = ~get_bit_mask(8-number_bits, number_bits);
+    int index_mask = 0;
+    int img_i = 0;
     for (int y = 0; y < getHeight(); y++) {
         for (int x = 0; x < getWidth(); x++) {
-            if (x < img.getWidth()*number_bits && y < img.getHeight()*number_bits) {
-                imOut[y][x] = (unsigned char) ((*this)[y][x] & mask1) | (img[y/number_bits][x/number_bits] & mask2[i]); // insert image in LSB
+            if (img_i < img.getTotalSize()) {
+                std::cout << (int)(img[y/height_factor][x/width_factor]) << " " << (int)(mask2[index_mask]) << "\n";
+                imOut[y][x] = (unsigned char) ((*this)[y][x] & mask1) | (img[y/height_factor][x/width_factor] & mask2[index_mask]); // insert image in LSB
             } else {
                 imOut[y][x] = (*this)[y][x]; // copy rest of image
             }
-            i = (i+1) % mask2_size;
+            index_mask = (index_mask+1) % mask2_size;
+            img_i++;
         }
     }
     std::cout << "Image secrète insérée dans une image visible.\n";
