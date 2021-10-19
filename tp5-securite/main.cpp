@@ -51,6 +51,7 @@ int main(int argc, char * argv[]) {
     plan8.save("tp5-bit-plane-8.pgm");
     
     // 3.1
-    ImageBase aInserer = ImageBase(getW)
-    ImageBase insertion = imIn.insert_message(<#ImageBase img#>)
+    ImageBase aInserer = ImageBase(imIn.getWidth()/2, imIn.getHeight()/2, imIn.getColor());
+    ImageBase insertion = imIn.insert_message(aInserer);
+    insertion.save("tp5-image-insere.pgm");
 }

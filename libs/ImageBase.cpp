@@ -467,7 +467,11 @@ ImageBase ImageBase::insert_message(ImageBase img) {
     int i = 1;
     for (int y = 0; y < getHeight(); y++) {
         for (int x = 0; x < getWidth(); x++) {
-            imOut[y][x] = ((*this)[y][x] & ~get_bit_mask(7, 2)) | (img[y][x] & get_bit_mask(i, 2));
+            if (x < img.getWidth() && y < img.getHeight()) {
+                imOut[y][x] = ((*this)[y][x] & ~get_bit_mask(7, 2)) | (img[y][x] & get_bit_mask(i, 2)); // insert image in LSB
+            } else {
+                imOut[y][x] = (*this)[y][x]; // copy rest of image
+            }
             if (i >= 7) i = 1;
             else i += 2;
         }
