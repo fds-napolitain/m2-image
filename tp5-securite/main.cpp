@@ -53,6 +53,10 @@ int main(int argc, char * argv[]) {
     plan8.save("tp5-bit-plane-8.pgm");
     
     // 3.1
-    ImageBase insertion = imIn.insert_message(aInserer);
+    ImageBase insertion = imIn.insert_message(aInserer, 7);
+    insertion.save("tp5-image-insere.pgm");
+    std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
+    insertion = imIn.insert_message(aInserer, 0);
+    std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
     insertion.save("tp5-image-insere.pgm");
 }

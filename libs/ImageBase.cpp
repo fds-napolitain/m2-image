@@ -465,12 +465,12 @@ ImageBase ImageBase::get_bit_plane(int k, bool binary = false) {
  * Le LSB étant le moins important, nous pouvons utiliser ce dernier sera utilisé comme emplacement pour
  * enregistrer notre message secret.
  */
-ImageBase ImageBase::insert_message(ImageBase img) {
+ImageBase ImageBase::insert_message(ImageBase img, int k) {
     ImageBase imOut(getWidth(), getHeight(), getColor());
     int number_bits = img.getTotalSize() / (float) getTotalSize() * 8;
     int width_factor = getWidth() / img.getWidth();
     int height_factor = getHeight() / img.getHeight();
-    unsigned char mask1 = ~get_bit_mask(8-number_bits, number_bits);
+    unsigned char mask1 = ~get_bit_mask(8-number_bits-k, number_bits);
     std::vector<unsigned char> mask2;
     int mask2_size = 8 / number_bits;
     for (int i = 0; i < 8 / number_bits; i++) {
@@ -481,7 +481,7 @@ ImageBase ImageBase::insert_message(ImageBase img) {
     for (int y = 0; y < getHeight(); y++) {
         for (int x = 0; x < getWidth(); x++) {
             if (img_i < img.getTotalSize()*width_factor*height_factor) {
-                imOut[y][x] = (unsigned char) ((*this)[y][x] & mask1) | (index_mask*number_bits >> (img[y/height_factor][x/width_factor] & mask2[index_mask])); // insert image in LSB
+                imOut[y][x] = (unsigned char) ((*this)[y][x] & mask1) | ((index_mask*number_bits >> (img[y/height_factor][x/width_factor] & mask2[index_mask])) << k); // insert image in LSB
             } else {
                 imOut[y][x] = (*this)[y][x]; // copy rest of image
             }
