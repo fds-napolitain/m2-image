@@ -480,7 +480,7 @@ ImageBase ImageBase::insert_message(ImageBase img) {
     int img_i = 0;
     for (int y = 0; y < getHeight(); y++) {
         for (int x = 0; x < getWidth(); x++) {
-            if (img_i < img.getTotalSize()) {
+            if (img_i < img.getTotalSize()*width_factor*height_factor) {
                 imOut[y][x] = (unsigned char) ((*this)[y][x] & mask1) | (index_mask*number_bits >> (img[y/height_factor][x/width_factor] & mask2[index_mask])); // insert image in LSB
             } else {
                 imOut[y][x] = (*this)[y][x]; // copy rest of image
