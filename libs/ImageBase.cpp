@@ -230,23 +230,35 @@ unsigned char *ImageBase::operator[](int l)
 }
 
 double ImageBase::EQM(ImageBase& imOut) {
-	double eqm_r = 0;
-	double eqm_g = 0;
-	double eqm_b = 0;
+    if (getColor() == false) {
+        double eqm = 0;
 
-	for (int y = 0; y < this->getHeight(); y++) {
-		for (int x = 0; x < this->getWidth(); x++) {
-			eqm_r += pow((*this)[y][x] - imOut[y][x], 2);
-			eqm_g += pow((*this)[y][x + 1] - imOut[y][x + 1], 2);
-			eqm_b += pow((*this)[y][x + 2] - imOut[y][x + 2], 2);
-		}
-	}
+        for (int y = 0; y < getHeight(); y++) {
+            for (int x = 0; x < getWidth(); x++) {
+                eqm += pow((*this)[y][x] - imOut[y][x], 2);
+            }
+        }
 
-	return (eqm_r + eqm_g + eqm_b) / (this->getTotalSize() * 3);
+        return eqm / (getTotalSize() * 3);
+    } else {
+        double eqm_r = 0;
+        double eqm_g = 0;
+        double eqm_b = 0;
+
+        for (int y = 0; y < getHeight(); y++) {
+            for (int x = 0; x < getWidth(); x++) {
+                eqm_r += pow((*this)[y][x] - imOut[y][x], 2);
+                eqm_g += pow((*this)[y][x + 1] - imOut[y][x + 1], 2);
+                eqm_b += pow((*this)[y][x + 2] - imOut[y][x + 2], 2);
+            }
+        }
+
+        return (eqm_r + eqm_g + eqm_b) / (getTotalSize() * 3);
+    }
 }
 
 double ImageBase::PSNR(ImageBase& imOut) {
-	return 10 * log10(pow(255, 2) / this->EQM(imOut));
+	return 10 * log10(pow(255, 2) / EQM(imOut));
 }
 
 unsigned char ImageBase::average_color(int x, int y, std::vector<std::vector<int>> neighbors) {
@@ -428,15 +440,6 @@ unsigned char get_bit_mask(int k) {
     return (unsigned char) pow(2, k);
 }
 
-/**
- * Renvoit un masque avec début de 0 à k et n fois.
- * k = 1 => LSB
- */
-unsigned char get_bit_mask(int k, int n) {
-    if (n == 1) return (unsigned char) pow(2, k);
-    else return (unsigned char) pow(2, k) | get_bit_mask(k-1, n-1);
-}
-
 /* Exemple de fonctionnement du plan binaire
  *   011000000 11000000
  * & 001000000 00100000
@@ -456,37 +459,29 @@ ImageBase ImageBase::get_bit_plane(int k, bool binary = false) {
     return bit_plane;
 }
 
-/* Exemple de fonctionnement d'insertion de message secret dans une image
- * 110110|11 101010|01
- * 10|10
- * 11 -> 10 et 01 -> 10
- * 110110|10
- * 101010|10
- * Le LSB étant le moins important, nous pouvons utiliser ce dernier sera utilisé comme emplacement pour
- * enregistrer notre message secret.
+/**
+ * k = 0 : LSB
+ * k = 7 : MSB
+ * insert img_2/8 into img_1 at its index k
  */
 ImageBase ImageBase::insert_message(ImageBase img, int k) {
+    // initialisations
     ImageBase imOut(getWidth(), getHeight(), getColor());
-    int number_bits = img.getTotalSize() / (float) getTotalSize() * 8;
-    int width_factor = getWidth() / img.getWidth();
     int height_factor = getHeight() / img.getHeight();
-    unsigned char mask1 = ~get_bit_mask(8-number_bits-k, number_bits);
+    int width_factor = getWidth() / img.getWidth();
+    // mask for first image
+    unsigned char mask1 = ~get_bit_mask(k); // k = 0 => 11111110
+    // mask for second image
     std::vector<unsigned char> mask2;
-    int mask2_size = 8 / number_bits;
-    for (int i = 0; i < 8 / number_bits; i++) {
-        mask2.push_back(get_bit_mask(i, number_bits));
+    for (int i = 0; i < 8; i++) {
+        mask2.push_back(get_bit_mask(i));
     }
-    int index_mask = 0;
-    int img_i = 0;
+    // inserting image into original image
+    int i = 0;
     for (int y = 0; y < getHeight(); y++) {
         for (int x = 0; x < getWidth(); x++) {
-            if (img_i < img.getTotalSize()*width_factor*height_factor) {
-                imOut[y][x] = (unsigned char) ((*this)[y][x] & mask1) | ((index_mask*number_bits >> (img[y/height_factor][x/width_factor] & mask2[index_mask])) << k); // insert image in LSB
-            } else {
-                imOut[y][x] = (*this)[y][x]; // copy rest of image
-            }
-            index_mask = (index_mask+1) % mask2_size;
-            img_i++;
+            imOut[y][x] = (unsigned char) ((*this)[y][x] & mask1) | ((i >> (img[y/height_factor][x/width_factor] & mask2[i])) << k);
+            i = (i + 1) % 8;
         }
     }
     std::cout << "Image secrète insérée dans une image visible.\n";

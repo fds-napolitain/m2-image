@@ -11,7 +11,7 @@
 int main(int argc, char * argv[]) {
     ImageBase imIn, aInserer;
     if (argc > 2) {
-        std::cout << argv[0];
+        std::cout << argv[0] << " " << argv[1] << " " << argv[2];
         imIn.load(argv[1]);
         aInserer.load(argv[2]);
     } else {
@@ -54,9 +54,9 @@ int main(int argc, char * argv[]) {
     
     // 3.1
     ImageBase insertion = imIn.insert_message(aInserer, 7);
-    insertion.save("tp5-image-insere.pgm");
+    insertion.save("tp5-image-insere-msb.pgm");
     std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
     insertion = imIn.insert_message(aInserer, 0);
     std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
-    insertion.save("tp5-image-insere.pgm");
+    insertion.save("tp5-image-insere-lsb.pgm");
 }
