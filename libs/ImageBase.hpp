@@ -97,4 +97,5 @@ public:
     float get_entropy(Histogram histogram);
     ImageBase get_bit_plane(int k, bool binary);
     ImageBase insert_message(ImageBase img, int k);
+    void random();
 };

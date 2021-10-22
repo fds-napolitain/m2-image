@@ -460,9 +460,23 @@ ImageBase ImageBase::get_bit_plane(int k, bool binary = false) {
 }
 
 /**
- * k = 0 : LSB
- * k = 7 : MSB
- * insert img_2/8 into img_1 at its index k
+ * in place modification of image to be random
+ */
+void ImageBase::random() {
+    srand(time(NULL));
+    for (int y = 0; y < getHeight(); y++) {
+        for (int x = 0; x < getWidth(); x++) {
+            (*this)[y][x] = (unsigned char) rand() % 256;
+        }
+    }
+}
+
+/**
+ * 1. Create output image of same size of original
+ *   - Height and width factor are used to associate multiple pixels of a smaller image to only one of a bigger one (for iterating)
+ * 2. Original mask : 11001100 & 11110111 => 11000100 (insert at k = 4)
+ * 3. Insertion mask : list of all pow(2, 0...7) to select the bit of the message to insert 11010101 & 10000000 => 10000000
+ * 4. Insert message :
  */
 ImageBase ImageBase::insert_message(ImageBase img, int k) {
     // initialisations
@@ -480,7 +494,7 @@ ImageBase ImageBase::insert_message(ImageBase img, int k) {
     int i = 0;
     for (int y = 0; y < getHeight(); y++) {
         for (int x = 0; x < getWidth(); x++) {
-            imOut[y][x] = (unsigned char) ((*this)[y][x] & mask1) | ((i >> (img[y/height_factor][x/width_factor] & mask2[i])) << k);
+            imOut[y][x] = (unsigned char) (((*this)[y][x] & mask1) | (((img[y/height_factor][x/width_factor] & mask2[i]) >> i) << k));
             i = (i + 1) % 8;
         }
     }
