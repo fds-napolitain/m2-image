@@ -484,15 +484,12 @@ void ImageBase::random() {
     }
 }
 
+/**
+ * Predict pixel(x, y) using (x-1 y), (x-1 y-1), (x y-1).
+ * Input has to be x and y > 0 (first line and column should always be skipped anyway for prediction to work).
+ */
 unsigned char ImageBase::prediction(int x, int y) {
-    if (x > 0 && y > 0) {
-        return ((*this)[y][x-1] + (*this)[y-1][x-1] + (*this)[y-1][x]) / 3;
-    } else if (x > 0) {
-        return (*this)[y][x-1];
-    } else if (y > 0) {
-        return (*this)[y-1][x];
-    }
-    return 0;
+    return (unsigned char) ((int)(*this)[y][x-1] + (int)(*this)[y-1][x-1] + (int)(*this)[y-1][x]) / 3;
 }
 
 /**
@@ -525,5 +522,27 @@ ImageBase ImageBase::insert_message(ImageBase img, int k, bool skip) {
         }
     }
     std::cout << "Image secrète insérée dans une image visible.\n";
+    return imOut;
+}
+
+/**
+ * this represents the image to be reconstructed, so the one which is encryped and with inserted data.
+ */
+ImageBase ImageBase::reconstruct() {
+    // initialisations
+    ImageBase imOut(getWidth(), getHeight(), getColor());
+    for (int i = 0; i < imOut.getHeight(); i++) imOut[i][0] = (*this)[i][0];
+    for (int i = 0; i < imOut.getWidth(); i++) imOut[0][i] = (*this)[0][i];
+    // interpollate data
+    for (int y = 1; y < getHeight(); y++) {
+        for (int x = 1; x < getWidth(); x++) {
+            if (abs((int)imOut.prediction(x, y) - (int)(*this)[y][x]) > abs((int)imOut.prediction(x, y) - (int)inverse_msb((*this)[y][x]))) { // if msb is inverted with neighbors
+                imOut[y][x] = inverse_msb((*this)[y][x]); // inversion du msb de l'image
+            } else {
+                imOut[y][x] = (*this)[y][x];
+            }
+        }
+    }
+    std::cout << "Reconstruction de l'image par interpollation des MSB.\n";
     return imOut;
 }

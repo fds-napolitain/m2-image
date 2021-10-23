@@ -23,8 +23,8 @@ int main(int argc, char * argv[]) {
     ImageBase derived_key = imIn.derive_key(55);
     ImageBase chiffre1 = imIn.get_xor(derived_key);
     chiffre1.save("tp5-chiffre-55.pgm");
-    ImageBase dechiffre = chiffre1.get_xor(derived_key);
-    dechiffre.save("tp5-dechiffre-55.pgm");
+//    ImageBase dechiffre = chiffre1.get_xor(derived_key);
+//    dechiffre.save("tp5-dechiffre-55.pgm");
     
 //    ImageBase derived_key2 = imIn.derive_key(18);
 //    ImageBase chiffre2 = imIn.get_xor(derived_key2);
@@ -76,4 +76,6 @@ int main(int argc, char * argv[]) {
     insertion = chiffre1.insert_message(aInserer, 7, true);
     insertion = insertion.get_xor(derived_key);
     insertion.save("tp5-image-insere-chiffre.pgm");
+    insertion.reconstruct();
+    insertion.save("tp5-image-insere-reconstruct.pgm");
 }

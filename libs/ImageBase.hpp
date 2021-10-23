@@ -98,5 +98,6 @@ public:
     ImageBase get_bit_plane(int k, bool binary);
     ImageBase insert_message(ImageBase img, int k, bool skip = false);
     unsigned char prediction(int x, int y);
+    ImageBase reconstruct();
     void random();
 };
