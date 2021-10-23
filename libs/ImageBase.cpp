@@ -489,7 +489,7 @@ void ImageBase::random() {
  * Input has to be x and y > 0 (first line and column should always be skipped anyway for prediction to work).
  */
 unsigned char ImageBase::prediction(int x, int y) {
-    return (unsigned char) ((int)(*this)[y][x-1] + (int)(*this)[y-1][x-1] + (int)(*this)[y-1][x]) / 3;
+    return ((*this)[y][x-1] + (*this)[y-1][x-1] + (*this)[y-1][x]) / 3;
 }
 
 /**
@@ -536,7 +536,7 @@ ImageBase ImageBase::reconstruct() {
     // interpollate data
     for (int y = 1; y < getHeight(); y++) {
         for (int x = 1; x < getWidth(); x++) {
-            if (abs((int)imOut.prediction(x, y) - (int)(*this)[y][x]) > abs((int)imOut.prediction(x, y) - (int)inverse_msb((*this)[y][x]))) { // if msb is inverted with neighbors
+            if (abs(imOut.prediction(x, y) - (*this)[y][x]) > abs(imOut.prediction(x, y) - inverse_msb((*this)[y][x]))) { // if msb is inverted with neighbors
                 imOut[y][x] = inverse_msb((*this)[y][x]); // inversion du msb de l'image
             } else {
                 imOut[y][x] = (*this)[y][x];
