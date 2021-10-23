@@ -440,6 +440,19 @@ unsigned char get_bit_mask(int k) {
     return (unsigned char) pow(2, k);
 }
 
+/**
+ * Inverse le MSB du nombre
+ */
+unsigned char inverse_msb(unsigned char pixel) {
+    unsigned char result = pixel;
+    if (pixel == (get_bit_mask(7) | pixel)) { // msb == 1
+        result &= ~get_bit_mask(7);
+    } else { // msb == 0
+        result |= get_bit_mask(7);
+    }
+    return result;
+}
+
 /* Exemple de fonctionnement du plan binaire
  *   011000000 11000000
  * & 001000000 00100000
@@ -471,6 +484,17 @@ void ImageBase::random() {
     }
 }
 
+unsigned char ImageBase::prediction(int x, int y) {
+    if (x > 0 && y > 0) {
+        return ((*this)[y][x-1] + (*this)[y-1][x-1] + (*this)[y-1][x]) / 3;
+    } else if (x > 0) {
+        return (*this)[y][x-1];
+    } else if (y > 0) {
+        return (*this)[y-1][x];
+    }
+    return 0;
+}
+
 /**
  * 1. Create output image of same size of original
  *   - Height and width factor are used to associate multiple pixels of a smaller image to only one of a bigger one (for iterating)
@@ -478,7 +502,7 @@ void ImageBase::random() {
  * 3. Insertion mask : list of all pow(2, 0...7) to select the bit of the message to insert 11010101 & 10000000 => 10000000
  * 4. Insert message :
  */
-ImageBase ImageBase::insert_message(ImageBase img, int k) {
+ImageBase ImageBase::insert_message(ImageBase img, int k, bool skip) {
     // initialisations
     ImageBase imOut(getWidth(), getHeight(), getColor());
     int height_factor = getHeight() / img.getHeight();
@@ -493,8 +517,10 @@ ImageBase ImageBase::insert_message(ImageBase img, int k) {
     // inserting image into original image
     int i = 0;
     for (int y = 0; y < getHeight(); y++) {
+        if (skip && (y == 0)) continue; // skip first column
         for (int x = 0; x < getWidth(); x++) {
-            imOut[y][x] = (unsigned char) (((*this)[y][x] & mask1) | (((img[y/height_factor][x/width_factor] & mask2[i]) >> i) << k));
+            if (skip && (x == 0)) continue; // skip first line
+            imOut[y][x] = (unsigned char) (((*this)[y][x] & mask1) | (((img[y/height_factor][x/width_factor] & mask2[i]) >> i) << k)); // insert message
             i = (i + 1) % 8;
         }
     }

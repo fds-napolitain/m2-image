@@ -26,11 +26,11 @@ int main(int argc, char * argv[]) {
     ImageBase dechiffre = chiffre1.get_xor(derived_key);
     dechiffre.save("tp5-dechiffre-55.pgm");
     
-    ImageBase derived_key2 = imIn.derive_key(18);
-    ImageBase chiffre2 = imIn.get_xor(derived_key2);
-    chiffre2.save("tp5-chiffre-18.pgm");
-    dechiffre = chiffre2.get_xor(derived_key);
-    dechiffre.save("tp5-dechiffre-18.pgm");
+//    ImageBase derived_key2 = imIn.derive_key(18);
+//    ImageBase chiffre2 = imIn.get_xor(derived_key2);
+//    chiffre2.save("tp5-chiffre-18.pgm");
+//    dechiffre = chiffre2.get_xor(derived_key);
+//    dechiffre.save("tp5-dechiffre-18.pgm");
     
 //    // image différente (1.4)
 //    std::cout << "\nPSNR: " << chiffre1.PSNR(chiffre2) << "\n";
@@ -56,19 +56,24 @@ int main(int argc, char * argv[]) {
 //    plan = chiffre1.get_bit_plane(7, true);
 //    plan.save("tp5-bit-plane-8.pgm");
     
-    // 3.1
+    // 2.5
     ImageBase aInserer(imIn.getWidth()/2, imIn.getHeight()/4, imIn.getColor());
     aInserer.random();
     ImageBase insertion = imIn.insert_message(aInserer, 7);
-    insertion.save("tp5-image-insere-msb.pgm");
-    insertion.histogram();
-    std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
-    insertion = imIn.insert_message(aInserer, 5);
-    std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
-    insertion = imIn.insert_message(aInserer, 2);
-    std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
-    insertion = imIn.insert_message(aInserer, 0);
-    std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
-    insertion.save("tp5-image-insere-lsb.pgm");
+//    insertion.save("tp5-image-insere-msb.pgm");
 //    insertion.histogram();
+//    std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
+//    insertion = imIn.insert_message(aInserer, 5);
+//    std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
+//    insertion = imIn.insert_message(aInserer, 2);
+//    std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
+//    insertion = imIn.insert_message(aInserer, 0);
+//    std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
+//    insertion.save("tp5-image-insere-lsb.pgm");
+//    insertion.histogram();
+    
+    // 3.1
+    insertion = chiffre1.insert_message(aInserer, 7, true);
+    insertion = insertion.get_xor(derived_key);
+    insertion.save("tp5-image-insere-chiffre.pgm");
 }
