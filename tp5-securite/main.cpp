@@ -75,7 +75,9 @@ int main(int argc, char * argv[]) {
     // 3.1
     insertion = chiffre1.insert_message(aInserer, 7, true);
     insertion = insertion.get_xor(derived_key);
+    std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
     insertion.save("tp5-image-insere-chiffre.pgm");
-    insertion.reconstruct();
-    insertion.save("tp5-image-insere-reconstruct.pgm");
+    ImageBase reconstruct = insertion.reconstruct();
+    reconstruct.save("tp5-image-insere-reconstruct.pgm");
+    std::cout << "PSNR: " << imIn.PSNR(reconstruct) << "\n";
 }

@@ -445,7 +445,7 @@ unsigned char get_bit_mask(int k) {
  */
 unsigned char inverse_msb(unsigned char pixel) {
     unsigned char result = pixel;
-    if (pixel == (get_bit_mask(7) | pixel)) { // msb == 1
+    if (pixel >= get_bit_mask(7)) { // msb == 1
         result &= ~get_bit_mask(7);
     } else { // msb == 0
         result |= get_bit_mask(7);
@@ -543,6 +543,6 @@ ImageBase ImageBase::reconstruct() {
             }
         }
     }
-    std::cout << "Reconstruction de l'image par interpollation des MSB.\n";
+    std::cout << "Reconstruction de l'image par interpollation des MSB\n";
     return imOut;
 }
