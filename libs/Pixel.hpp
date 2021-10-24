@@ -12,6 +12,7 @@
 
 /**
  * Classe représentant un pixel abstrait avec ses opérations
+ * But: généricité par rapport aux composantes couleurs (niveaux de gris, rgb, etc).
  */
 class Pixel {
     
@@ -28,7 +29,7 @@ public:
     virtual Pixel operator/=(unsigned char value);
     virtual Pixel operator++();
     virtual Pixel operator--();
-    virtual Pixel operator&();
+    virtual Pixel operator&(unsigned char value);
     virtual Pixel operator|(unsigned char value);
     virtual Pixel operator&=(unsigned char value);
     virtual Pixel operator|=(unsigned char value);
@@ -57,7 +58,7 @@ public:
     Pixel operator/=(unsigned char value);
     Pixel operator++();
     Pixel operator--();
-    Pixel operator&();
+    Pixel operator&(unsigned char value);
     Pixel operator|(unsigned char value);
     Pixel operator&=(unsigned char value);
     Pixel operator|=(unsigned char value);
@@ -88,7 +89,7 @@ public:
     Pixel operator/=(unsigned char value);
     Pixel operator++();
     Pixel operator--();
-    Pixel operator&();
+    Pixel operator&(unsigned char value);
     Pixel operator|(unsigned char value);
     Pixel operator&=(unsigned char value);
     Pixel operator|=(unsigned char value);

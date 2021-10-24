@@ -19,18 +19,11 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include "Histogram.hpp"
 
 #define ROUGE 0
 #define VERT 1
 #define BLEU 2
-
-
-/**
- Structure d'un histogramme utilisé par ImageBase::histogram()
- */
-struct Histogram {
-    int data[256][3];
-};
 
 class ImageBase
 {
