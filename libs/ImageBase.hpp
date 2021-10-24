@@ -5,7 +5,7 @@
 *
 * Description : Classe contennant quelques fonctionnalit�s de base
 *
-* Auteur : Mickael Pinto
+* Auteur : Mickael Pinto, Maxime Boucher
 *
 * Mail : mickael.pinto@live.fr
 *
@@ -84,7 +84,9 @@ public:
 	unsigned char *operator[](int l);
 	// Calcule le PSNR entre l'image actuel (imIn) et l'image cible (imOut).
 	double PSNR(ImageBase& imOut);
-    // Calcule la moyenne des couleurs de pixels voisins par coordonnées
+    /**
+     * Calcule la moyenne des couleurs de pixels voisins par coordonnées
+     */
     unsigned char average_color(int x, int y, std::vector<std::vector<int>> neighbors);
     ImageBase rgb_to_ycrcb();
     ImageBase ycrcb_to_rgb();
@@ -100,4 +102,5 @@ public:
     unsigned char prediction(int x, int y);
     ImageBase reconstruct();
     void random();
+    ImageBase pretraitement();
 };

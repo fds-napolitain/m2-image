@@ -21,8 +21,9 @@ int main(int argc, char * argv[]) {
     
     // questions 1...
     ImageBase derived_key = imIn.derive_key(55);
-    ImageBase chiffre1 = imIn.get_xor(derived_key);
-    chiffre1.save("tp5-chiffre-55.pgm");
+    ImageBase chiffre1;
+//    chiffre1 = imIn.get_xor(derived_key);
+//    chiffre1.save("tp5-chiffre-55.pgm");
 //    ImageBase dechiffre = chiffre1.get_xor(derived_key);
 //    dechiffre.save("tp5-dechiffre-55.pgm");
     
@@ -72,12 +73,14 @@ int main(int argc, char * argv[]) {
 //    insertion.save("tp5-image-insere-lsb.pgm");
 //    insertion.histogram();
     
-    // 3.1
-    insertion = chiffre1.insert_message(aInserer, 7, true);
-    insertion = insertion.get_xor(derived_key);
+    // 3.1-5
+    ImageBase pretraite = imIn.pretraitement(); // pretraitement
+    chiffre1 = pretraite.get_xor(derived_key); // chiffrement
+    insertion = chiffre1.insert_message(aInserer, 7, true); // insertion
+    insertion = insertion.get_xor(derived_key); // dechiffrement
     std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
     insertion.save("tp5-image-insere-chiffre.pgm");
-    ImageBase reconstruct = insertion.reconstruct();
+    ImageBase reconstruct = insertion.reconstruct(); // reconstruction
     reconstruct.save("tp5-image-insere-reconstruct.pgm");
     std::cout << "PSNR: " << imIn.PSNR(reconstruct) << "\n";
 }

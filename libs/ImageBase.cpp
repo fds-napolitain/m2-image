@@ -5,7 +5,7 @@
 *
 * Description : Voir le fichier .h
 *
-* Auteur : Mickael Pinto
+* Auteur : Mickael Pinto, Maxime Boucher
 *
 * Mail : mickael.pinto@live.fr
 *
@@ -436,14 +436,14 @@ float ImageBase::get_entropy(Histogram histogram) {
  * Renvoit un masque pour plan binaire (avec un seul bit à 1)
  * k = 1 => LSB
  */
-unsigned char get_bit_mask(int k) {
+constexpr unsigned char get_bit_mask(int k) {
     return (unsigned char) pow(2, k);
 }
 
 /**
  * Inverse le MSB du nombre
  */
-unsigned char inverse_msb(unsigned char pixel) {
+constexpr unsigned char inverse_msb(unsigned char pixel) {
     unsigned char result = pixel;
     if (pixel >= get_bit_mask(7)) { // msb == 1
         result &= ~get_bit_mask(7);
@@ -536,7 +536,8 @@ ImageBase ImageBase::reconstruct() {
     // interpollate data
     for (int y = 1; y < getHeight(); y++) {
         for (int x = 1; x < getWidth(); x++) {
-            if (abs(imOut.prediction(x, y) - (*this)[y][x]) > abs(imOut.prediction(x, y) - inverse_msb((*this)[y][x]))) { // if msb is inverted with neighbors
+            unsigned char pred_i = imOut.prediction(x, y);
+            if (abs(pred_i - (*this)[y][x]) >= abs(pred_i - inverse_msb((*this)[y][x]))) { // if msb is inverted with neighbors
                 imOut[y][x] = inverse_msb((*this)[y][x]); // inversion du msb de l'image
             } else {
                 imOut[y][x] = (*this)[y][x];
@@ -544,5 +545,37 @@ ImageBase ImageBase::reconstruct() {
         }
     }
     std::cout << "Reconstruction de l'image par interpollation des MSB\n";
+    return imOut;
+}
+
+/*
+ * Entrees : Image originale I de m × n pixels p(i)
+ * Sorties : Image pr ́e-trait ́ee I′ de m × n pixels p′(i)
+ * pour 0 ≤ i < m × n faire
+ *   si |pred(i) − p(i)| ≥ |pred(i) − inv(i)|
+ *     si p(i) < 128 alors
+ *       p′(i) = pred(i) − 63;
+ *     sinon
+ *       p′(i) = pred(i) + 63;
+ *   sinon
+ *     p′(i) = p(i);
+ */
+ImageBase ImageBase::pretraitement() {
+    ImageBase imOut(getWidth(), getHeight(), getColor());
+    for (int y = 0; y < getHeight(); y++) {
+        for (int x = 0; x < getWidth(); x++) {
+            unsigned char pred_i = imOut.prediction(x, y);
+            if (abs(pred_i - (*this)[y][x]) >= abs(pred_i - inverse_msb((*this)[y][x]))) {
+                if ((*this)[y][x] < 128) {
+                    imOut[y][x] = pred_i - 63;
+                } else {
+                    imOut[y][x] = pred_i + 63;
+                }
+            } else {
+                imOut[y][x] = (*this)[y][x];
+            }
+        }
+    }
+    std::cout << "Image prétraitée\n";
     return imOut;
 }
