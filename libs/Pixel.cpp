@@ -198,7 +198,7 @@ Pixel PixelRGB::operator|=(unsigned char value) {
 }
 
 Pixel PixelRGB::operator^(unsigned char value) {
-    PixelRGB pixel(r ^value, g ^ value, b ^ value);
+    PixelRGB pixel(r ^ value, g ^ value, b ^ value);
     return pixel;
 }
 
