@@ -32,13 +32,15 @@ ImageBase::ImageBase(int imWidth, int imHeight, bool isColor)
 	color = isColor;
 	height = imHeight;
 	width = imWidth;
-	nTaille = height * width * (color ? 3 : 1);
+    nTaille = height * width;
 	
 	if(nTaille == 0)
 		return;
 	
-    allocation_tableau(data, OCTET, nTaille);
-
+    if (isColor())
+        allocation_tableau(data, PixelRGB, nTaille);
+    else
+        allocation_tableau(data, PixelGray, nTaille);
 	isValid = true;
 }
 

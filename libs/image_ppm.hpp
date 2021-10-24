@@ -34,10 +34,10 @@ void ignorer_commentaires(FILE * f)
 
 
 /*===========================================================================*/
-void ecrire_image_ppm(char  nom_image[], OCTET *pt_image, int nb_lignes, int nb_colonnes)
+void ecrire_image_ppm(char  nom_image[], Pixel *pt_image, int nb_lignes, int nb_colonnes)
 {
    FILE *f_image;
-   int taille_image = 3*nb_colonnes * nb_lignes;
+   int taille_image = nb_colonnes * nb_lignes;
 
    if( (f_image = fopen(nom_image, "wb")) == NULL)
       {
