@@ -35,7 +35,7 @@ public:
 
 	///////////// Attributs
 protected:
-	Pixel *data;
+	unsigned char *data;
 
 	bool color;
 	int height;

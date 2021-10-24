@@ -37,9 +37,7 @@ ImageBase::ImageBase(int imWidth, int imHeight, bool isColor)
 	if(nTaille == 0)
 		return;
 	
-    if (isColor)
-        allocation_tableau(data, PixelRGB, nTaille);
-    else allocation_tableau(data, PixelGray, nTaille);
+    allocation_tableau(data, OCTET, nTaille);
 
 	isValid = true;
 }
@@ -95,7 +93,7 @@ void ImageBase::load(char *filename)
 		nbPixel = height * width;
   
 		nTaille = nbPixel;
-		allocation_tableau(data, PixelGray, nTaille);
+		allocation_tableau(data, OCTET, nTaille);
 		lire_image_pgm(filename, data, nbPixel);
 	}
 	else if( strcmp(filename + l - 3, "ppm") == 0) // L'image est en couleur
@@ -104,8 +102,8 @@ void ImageBase::load(char *filename)
 		lire_nb_lignes_colonnes_image_ppm(filename, &height, &width);
 		nbPixel = height * width;
   
-		nTaille = nbPixel;
-		allocation_tableau(data, PixelRGB, nTaille);
+		nTaille = nbPixel*3;
+		allocation_tableau(data, OCTET, nTaille);
 		lire_image_ppm(filename, data, nbPixel);
 	}
 	else 
