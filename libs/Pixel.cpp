@@ -11,6 +11,12 @@ PixelGray::PixelGray(unsigned char gray) {
     g = gray;
 }
 
+PixelGray::PixelGray(const PixelGray &pixel) {
+    g = pixel.g;
+}
+
+PixelGray::~PixelGray() {}
+
 Pixel PixelGray::operator+(unsigned char value) {
     PixelGray pixel(g + value);
     return pixel;
@@ -100,6 +106,14 @@ PixelRGB::PixelRGB(unsigned char red, unsigned char green, unsigned char blue) {
     g = green;
     b = blue;
 }
+
+PixelRGB::PixelRGB(const PixelRGB &pixel) {
+    r = pixel.r;
+    g = pixel.g;
+    b = pixel.b;
+}
+
+PixelRGB::~PixelRGB() {}
 
 Pixel PixelRGB::operator+(unsigned char value) {
     PixelRGB pixel(r + value, g + value, b + value);

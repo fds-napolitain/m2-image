@@ -47,6 +47,7 @@ public:
     unsigned char g;
     
     PixelGray(unsigned char gray);
+    PixelGray(const PixelGray &pixel);
     ~PixelGray();
     Pixel operator+(unsigned char value);
     Pixel operator-(unsigned char value);
@@ -78,6 +79,7 @@ public:
     unsigned char b; // blue
     
     PixelRGB(unsigned char red, unsigned char green, unsigned char blue);
+    PixelRGB(const PixelRGB &pixel);
     ~PixelRGB();
     Pixel operator+(unsigned char value);
     Pixel operator-(unsigned char value);

@@ -11,10 +11,9 @@
 int main(int argc, char * argv[]) {
     ImageBase imIn;
     if (argc > 1) {
-        std::cout << argv[0] << " " << argv[1] << " " << argv[2];
         imIn.load(argv[1]);
     } else {
-        std::cout << "Argument 1: chemin d'image\nArgument 2: chemin d'image à insérer";
+        std::cout << "Argument 1: chemin d'image\nArgument 2 optionnel: chemin d'image à insérer";
         exit(1);
     }
     std::cout << "\n";
@@ -58,8 +57,14 @@ int main(int argc, char * argv[]) {
 //    plan.save("tp5-bit-plane-8.pgm");
     
     // 2.5
+    // flux aléatoire
     ImageBase aInserer(imIn.getWidth()/2, imIn.getHeight()/4, imIn.getColor());
-    aInserer.random();
+    if (argc > 2) { // image a inserer (argv[2]) (bonus)
+        aInserer.load(argv[2]);
+        aInserer = aInserer.get_xor(aInserer.derive_key(123)); // chiffre = xor(clé)
+    } else { // image a inserer sinon : flux aléatoirement généré
+        aInserer.random();
+    }
     ImageBase insertion = imIn.insert_message(aInserer, 7);
 //    insertion.save("tp5-image-insere-msb.pgm");
 //    insertion.histogram();
