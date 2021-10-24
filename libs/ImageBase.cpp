@@ -37,8 +37,10 @@ ImageBase::ImageBase(int imWidth, int imHeight, bool isColor)
 	if(nTaille == 0)
 		return;
 	
-	allocation_tableau(data, OCTET, nTaille);
-	dataD = (double*)malloc(sizeof(double) * nTaille);
+    if (isColor)
+        allocation_tableau(data, PixelRGB, nTaille);
+    else allocation_tableau(data, PixelGray, nTaille);
+
 	isValid = true;
 }
 
@@ -53,11 +55,11 @@ void ImageBase::init()
 	if(isValid)
 	{
 		free(data);
-		free(dataD);
+
 	}
 
 	data = 0;
-	dataD = 0;
+
 	height = width = nTaille = 0;
 	isValid = false;
 }
@@ -67,7 +69,7 @@ void ImageBase::reset()
 	if(isValid)
 	{
 		//free(data);
-		//free(dataD);
+
 	}
 	isValid = false;
 }
@@ -93,7 +95,7 @@ void ImageBase::load(char *filename)
 		nbPixel = height * width;
   
 		nTaille = nbPixel;
-		allocation_tableau(data, OCTET, nTaille);
+		allocation_tableau(data, PixelGray, nTaille);
 		lire_image_pgm(filename, data, nbPixel);
 	}
 	else if( strcmp(filename + l - 3, "ppm") == 0) // L'image est en couleur
@@ -102,8 +104,8 @@ void ImageBase::load(char *filename)
 		lire_nb_lignes_colonnes_image_ppm(filename, &height, &width);
 		nbPixel = height * width;
   
-		nTaille = nbPixel * 3;
-		allocation_tableau(data, OCTET, nTaille);
+		nTaille = nbPixel;
+		allocation_tableau(data, PixelRGB, nTaille);
 		lire_image_ppm(filename, data, nbPixel);
 	}
 	else 
@@ -111,9 +113,6 @@ void ImageBase::load(char *filename)
 		printf("Chargement de l'image impossible : Le nom de fichier n'est pas conforme, il doit comporter l'extension, et celle ci ne peut �tre que .pgm ou .ppm");
 		exit(0);
 	}
-	
-	dataD = (double*)malloc(sizeof(double) * nTaille);
-
 	isValid = true;
 }
 
@@ -178,13 +177,11 @@ void ImageBase::copy(const ImageBase &copy)
 		return;
 	
 	allocation_tableau(data, OCTET, nTaille);
-	dataD = (double*)malloc(sizeof(double) * nTaille);
 	isValid = true;
 
 	for(int i = 0; i < nTaille; ++i)
 	{
 		data[i] = copy.data[i];
-		dataD[i] = copy.dataD[i];
 	}
 
 }
@@ -207,7 +204,6 @@ void ImageBase::shallowCopy(const ImageBase &copy)
 		return;
 	
 	allocation_tableau(data, OCTET, nTaille);
-	dataD = (double*)malloc(sizeof(double) * nTaille);
 	isValid = true;
 
 }
@@ -375,7 +371,7 @@ ImageBase ImageBase::ondelette_haar(int n, int q = 2, bool reconstruction = true
             }
         }
     }
-    std::cout << "\nOndelette!";
+    std::cout << "Ondelette!\n";
     if (!reconstruction) { // ondelette de haar aller simple
         if (n > 1) {
             if (q == 2) {
@@ -411,7 +407,10 @@ ImageBase ImageBase::derive_key(unsigned int key) {
     return derived_key;
 }
 
-ImageBase ImageBase::get_xor(ImageBase key) {
+/**
+ * Redéfinition de XOR, entre 2 ImageBase
+ */
+ImageBase ImageBase::operator^(ImageBase key) {
     ImageBase imOut(getWidth(), getHeight(), getColor());
     for (int y = 0; y < getHeight(); y++) {
         for (int x = 0; x < getWidth(); x++) {
@@ -497,7 +496,7 @@ unsigned char ImageBase::prediction(int x, int y) {
  *   - Height and width factor are used to associate multiple pixels of a smaller image to only one of a bigger one (for iterating)
  * 2. Original mask : 11001100 & 11110111 => 11000100 (insert at k = 4)
  * 3. Insertion mask : list of all pow(2, 0...7) to select the bit of the message to insert 11010101 & 10000000 => 10000000
- * 4. Insert message :
+ * 4. Insert message
  */
 ImageBase ImageBase::insert_message(ImageBase img, int k, bool skip) {
     // initialisations
@@ -526,7 +525,31 @@ ImageBase ImageBase::insert_message(ImageBase img, int k, bool skip) {
 }
 
 /**
- * this represents the image to be reconstructed, so the one which is encryped and with inserted data.
+ * Extract back inserted image/message.
+ */
+ImageBase ImageBase::extract_message(int k, bool skip) {
+    // initialisations
+    ImageBase imOut(getWidth()/2, getHeight()/4, getColor());
+    imOut.zero();
+    int height_factor = getHeight() / imOut.getHeight();
+    int width_factor = getWidth() / imOut.getWidth();
+    // mask for first image
+    unsigned char mask = get_bit_mask(k);
+    int i = 0;
+    for (int y = 0; y < getHeight(); y++) {
+        if (skip && (y == 0)) continue; // skip first column
+        for (int x = 0; x < getWidth(); x++) {
+            if (skip && (x == 0)) continue; // skip first line
+            imOut[y/height_factor][x/width_factor] |= (((*this)[y][x] & mask) >> k) << i;  // extract message
+            i = (i + 1) % 8;
+        }
+    }
+    std::cout << "Image/message secret extrait de l'image.\n";
+    return imOut;
+}
+
+/**
+ * this represents the image to be reconstructed, so the one which is encrypted and with inserted data.
  */
 ImageBase ImageBase::reconstruct() {
     // initialisations
@@ -578,4 +601,12 @@ ImageBase ImageBase::pretraitement() {
     }
     std::cout << "Image prétraitée\n";
     return imOut;
+}
+
+void ImageBase::zero() {
+    for (int y = 0; y < getHeight(); y++) {
+        for (int x = 0; x < getWidth(); x++) {
+            (*this)[y][x] = 0;
+        }
+    }
 }

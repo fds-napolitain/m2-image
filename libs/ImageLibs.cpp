@@ -17,7 +17,7 @@
  */
 ImageBase fusion4(ImageBase i1, ImageBase i2, ImageBase i3, ImageBase i4) {
     ImageBase imOut(i1.getWidth()*2, i1.getHeight()*2, i1.getColor());
-    std::cout << "\nFusion!";
+    std::cout << "Fusion!\n";
     for (int j = 0; j < i1.getHeight(); j++) {
         for (int i = 0; i < i1.getWidth(); i++) {
             imOut[j][i] = i1[j][i];
@@ -40,7 +40,7 @@ ImageBase fusion4(ImageBase i1, ImageBase i2, ImageBase i3, ImageBase i4) {
  */
 ImageBase reconstruction_haar_4(ImageBase lf, ImageBase mf_v, ImageBase mf_h, ImageBase hf, int q) {
     ImageBase imOut(lf.getWidth()*2, lf.getHeight()*2, lf.getColor());
-    std::cout << "\nReconstruction!";
+    std::cout << "Reconstruction!\n";
     for (int j = 0; j < lf.getHeight(); j++) {
         for (int i = 0; i < lf.getWidth(); i++) {
             int v1 = (int)lf[j][i];

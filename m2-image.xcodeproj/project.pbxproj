@@ -18,7 +18,6 @@
 		FB15DE6F2725D200007C8C11 /* Histogram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB15DE6B2725D200007C8C11 /* Histogram.cpp */; };
 		FB15DE702725D200007C8C11 /* Histogram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB15DE6B2725D200007C8C11 /* Histogram.cpp */; };
 		FB15DE712725D200007C8C11 /* Histogram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB15DE6B2725D200007C8C11 /* Histogram.cpp */; };
-		FB15DE722725D2F6007C8C11 /* Pixel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB15DE5F27259E6E007C8C11 /* Pixel.cpp */; };
 		FB60C70526EF90A500EDF8EF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB60C70326EF90A500EDF8EF /* main.cpp */; };
 		FB78518C27141A7C009FF1E3 /* ImageLibs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB78518A27141A7C009FF1E3 /* ImageLibs.cpp */; };
 		FB78518D27141A7C009FF1E3 /* ImageLibs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB78518A27141A7C009FF1E3 /* ImageLibs.cpp */; };
@@ -403,7 +402,6 @@
 				FB15DE712725D200007C8C11 /* Histogram.cpp in Sources */,
 				FB78519B27142623009FF1E3 /* ImageBase.cpp in Sources */,
 				FB78519C27142626009FF1E3 /* ImageLibs.cpp in Sources */,
-				FB15DE722725D2F6007C8C11 /* Pixel.cpp in Sources */,
 				FB78519727141F7F009FF1E3 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

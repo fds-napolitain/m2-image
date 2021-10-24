@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "ImageBase.hpp"
+#include "ImageLibs.hpp"
 
 int main(int argc, char * argv[]) {
     ImageBase imIn;
@@ -16,31 +17,31 @@ int main(int argc, char * argv[]) {
         std::cout << "Argument 1: chemin d'image\nArgument 2 optionnel: chemin d'image à insérer";
         exit(1);
     }
-    std::cout << "\n";
+    std::cout << "\n\n";
     
     // questions 1...
     ImageBase derived_key = imIn.derive_key(55);
     ImageBase chiffre1;
-//    chiffre1 = imIn.get_xor(derived_key);
+//    chiffre1 = imIn ^ derived_key;
 //    chiffre1.save("tp5-chiffre-55.pgm");
-//    ImageBase dechiffre = chiffre1.get_xor(derived_key);
+//    ImageBase dechiffre = chiffre1 ^ derived_key;
 //    dechiffre.save("tp5-dechiffre-55.pgm");
     
 //    ImageBase derived_key2 = imIn.derive_key(18);
-//    ImageBase chiffre2 = imIn.get_xor(derived_key2);
+//    ImageBase chiffre2 = imIn ^ derived_key2;
 //    chiffre2.save("tp5-chiffre-18.pgm");
-//    dechiffre = chiffre2.get_xor(derived_key);
+//    dechiffre = chiffre2 ^ derived_key;
 //    dechiffre.save("tp5-dechiffre-18.pgm");
     
 //    // image différente (1.4)
-//    std::cout << "\nPSNR: " << chiffre1.PSNR(chiffre2) << "\n";
+//    std::cout << "PSNR: " << chiffre1.PSNR(chiffre2) << "\n";
 //
 //    // 2.1
 //    std::cout << "PSNR: " << imIn.PSNR(chiffre1) << "\n";
 //
 //    // 2.2
-//    std::cout << "entropie: " << imIn.get_entropy(imIn.histogram());
-//    std::cout << "entropie: " << chiffre1.get_entropy(chiffre1.histogram());
+//    std::cout << "entropie: " << imIn.get_entropy(imIn.histogram()) << "\n";
+//    std::cout << "entropie: " << chiffre1.get_entropy(chiffre1.histogram()) << "\n";
     
     // 2.3 a mettre en commentaire si jamais
     //imIn.histogram();
@@ -59,13 +60,19 @@ int main(int argc, char * argv[]) {
     // 2.5
     // flux aléatoire
     ImageBase aInserer(imIn.getWidth()/2, imIn.getHeight()/4, imIn.getColor());
-    if (argc > 2) { // image a inserer (argv[2]) (bonus)
+    if (argc > 2) { // 4.2 image a inserer (argv[2]), testé avec width/2 et height/4 de l'image cible
         aInserer.load(argv[2]);
-        aInserer = aInserer.get_xor(aInserer.derive_key(123)); // chiffre = xor(clé)
+        while (aInserer.getTotalSize() < imIn.getTotalSize() / 8) { // si image < 8 fois moins la taille de l'image
+            ImageBase random(aInserer.getWidth(), aInserer.getHeight(), aInserer.getColor());
+            random.random(); // remplir le reste d'aleatoire pour embeter une steganalyse éventuelle
+            aInserer = fusion4(aInserer, random, random, random); // ^2 size filling with random bits
+        }
+        aInserer = aInserer ^ aInserer.derive_key(123); // chiffre = message xor clé
     } else { // image a inserer sinon : flux aléatoirement généré
         aInserer.random();
     }
-    ImageBase insertion = imIn.insert_message(aInserer, 7);
+    ImageBase insertion;
+//    insertion = imIn.insert_message(aInserer, 7);
 //    insertion.save("tp5-image-insere-msb.pgm");
 //    insertion.histogram();
 //    std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
@@ -73,16 +80,20 @@ int main(int argc, char * argv[]) {
 //    std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
 //    insertion = imIn.insert_message(aInserer, 2);
 //    std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
-//    insertion = imIn.insert_message(aInserer, 0);
-//    std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
-//    insertion.save("tp5-image-insere-lsb.pgm");
-//    insertion.histogram();
+    insertion = imIn.insert_message(aInserer, 0);
+    std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
+    insertion.save("tp5-image-insere-lsb.pgm");
+    insertion.histogram();
+    
+    // 4.1
+    ImageBase extract = insertion.extract_message(0);
+    extract.save("tp5-image-insere-extract.pgm");
     
     // 3.1-5
     ImageBase pretraite = imIn.pretraitement(); // pretraitement
-    chiffre1 = pretraite.get_xor(derived_key); // chiffrement
+    chiffre1 = pretraite ^ derived_key; // chiffrement
     insertion = chiffre1.insert_message(aInserer, 7, true); // insertion
-    insertion = insertion.get_xor(derived_key); // dechiffrement
+    insertion = insertion ^ derived_key; // dechiffrement
     std::cout << "PSNR: " << imIn.PSNR(insertion) << "\n";
     insertion.save("tp5-image-insere-chiffre.pgm");
     ImageBase reconstruct = insertion.reconstruct(); // reconstruction

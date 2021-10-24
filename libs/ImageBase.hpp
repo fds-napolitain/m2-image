@@ -20,6 +20,7 @@
 #include <vector>
 #include <fstream>
 #include "Histogram.hpp"
+#include "Pixel.hpp"
 
 #define ROUGE 0
 #define VERT 1
@@ -34,8 +35,7 @@ public:
 
 	///////////// Attributs
 protected:
-	unsigned char *data;
-	double *dataD;
+	Pixel *data;
 
 	bool color;
 	int height;
@@ -75,25 +75,25 @@ public:
 	ImageBase *getPlan(PLAN plan);
 
 	unsigned char *operator[](int l);
-	// Calcule le PSNR entre l'image actuel (imIn) et l'image cible (imOut).
+    /** Redéfinition de l'opérateur XOR entre 2 ImageBase */
+    ImageBase operator^(ImageBase key);
+
 	double PSNR(ImageBase& imOut);
-    /**
-     * Calcule la moyenne des couleurs de pixels voisins par coordonnées
-     */
     unsigned char average_color(int x, int y, std::vector<std::vector<int>> neighbors);
     ImageBase rgb_to_ycrcb();
     ImageBase ycrcb_to_rgb();
     Histogram histogram();
     unsigned char difference(int x, int y);
     ImageBase ondelette_haar(int n, int q, bool reconstruction);
-    void operator+(const ImageBase& img);
-    ImageBase derive_key(unsigned int key); // derive la clé de chiffrement initial
-    ImageBase get_xor(ImageBase key); // transforme l'image grace à une clé aussi longue que l'image (dérivée)
+    /** derive la clé de chiffrement initial sur une taille identique à l'image qu'on veut chiffrer (this) */
+    ImageBase derive_key(unsigned int key);
     float get_entropy(Histogram histogram);
     ImageBase get_bit_plane(int k, bool binary);
     ImageBase insert_message(ImageBase img, int k, bool skip = false);
     unsigned char prediction(int x, int y);
     ImageBase reconstruct();
     void random();
+    void zero();
     ImageBase pretraitement();
+    ImageBase extract_message(int k, bool skip = false);
 };

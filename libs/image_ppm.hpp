@@ -86,11 +86,11 @@ void lire_nb_lignes_colonnes_image_ppm(char nom_image[], int *nb_lignes, int *nb
 }
 /*===========================================================================*/
 /*===========================================================================*/
-void lire_image_ppm(char  nom_image[], OCTET *pt_image, int taille_image)
+void lire_image_ppm(char  nom_image[], PixelRGB *pt_image, int taille_image)
 {
    FILE *f_image;
    int  nb_colonnes, nb_lignes, max_grey_val;
-   taille_image=3*taille_image;
+   taille_image=taille_image;
 
    if( (f_image = fopen(nom_image, "rb")) == NULL)
       {
