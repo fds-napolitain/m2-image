@@ -37,7 +37,7 @@ ImageBase::ImageBase(int imWidth, int imHeight, bool isColor)
 	if(nTaille == 0)
 		return;
 	
-    if (isColor())
+    if (isColor)
         allocation_tableau(data, PixelRGB, nTaille);
     else
         allocation_tableau(data, PixelGray, nTaille);
